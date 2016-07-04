@@ -3,7 +3,7 @@ package com.fileSystem.operation;
 /**
  * 基本操作。
  * 
- * @author 刘鑫伟
+ * @author 刘鑫伟， 小辉
  *
  */
 public class Operation {
