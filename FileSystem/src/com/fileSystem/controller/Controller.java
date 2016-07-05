@@ -76,4 +76,5 @@ public class Controller {
 		Controller controller = new Controller();
 		controller.control();
 	}
+	
 }
