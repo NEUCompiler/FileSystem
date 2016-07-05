@@ -62,7 +62,7 @@ public class Controller {
 				case "write": operation.write(); break;
 				case "close": operation.close(); break;
 				case "delete": operation.delete(); break;
-				case "mkdir": operation.mkdir(); break;
+				case "mkdir": operation.mkdir("12"); break;
 				case "chdir": operation.chdir(); break;
 				case "dir": operation.dir(); break;
 				case "logout": operation.logout(); break;
