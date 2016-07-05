@@ -1,7 +1,16 @@
 package com.fileSystem.controller;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
+import javax.tools.DocumentationTool.Location;
+
+import org.omg.PortableServer.ID_ASSIGNMENT_POLICY_ID;
+
+import com.fileSystem.model.UFile;
 import com.fileSystem.operation.Operation;
 
 /**
@@ -11,6 +20,9 @@ import com.fileSystem.operation.Operation;
  *
  */
 public class Controller {
+	
+	private String command;
+	private String location;
 	
 	/**
 	 * 扫描器。
@@ -26,9 +38,7 @@ public class Controller {
 	 * 显示界面。
 	 */
 	public void showWindow() {
-		System.out.println("***********************************FiveStates**********************************************");
-		System.out.println("1.Create   2.Open    3.Read   4.Write   5.Close  6.Delete  7.Mkdir 8.Chdir 9.dir 10.logout 11.format 0.Exit");
-		System.out.println("********************************************************************************************");
+		System.out.print("root:>");
 	}
 	
 	/**
@@ -36,20 +46,27 @@ public class Controller {
 	 */
 	public void chooseOperation() {
 		String order;
+		ArrayList<String> lists;
+		UFile file = null;
 		
-		while (!"0".equals((order = in.next()))) {
+		while (!"exit".equals((order = in.nextLine()))) {
+			
+			lists = dealWithOrder(order);
+			order = lists.get(0);
+			file = new UFile(operation.getId(), order, location);
+			
 			switch (order) {
-				case "1": operation.create(); break;
-				case "2": operation.open(); break;
-				case "3": operation.read(); break;
-				case "4": operation.write(); break;
-				case "5": operation.close(); break;
-				case "6": operation.delete(); break;
-				case "7": operation.mkdir(); break;
-				case "8": operation.chdir(); break;
-				case "9": operation.dir(); break;
-				case "10": operation.logout(); break;
-				case "11": operation.format(); break;
+				case "create": operation.create(file); break;
+				case "open": operation.open(); break;
+				case "read": operation.read(); break;
+				case "write": operation.write(); break;
+				case "close": operation.close(); break;
+				case "delete": operation.delete(); break;
+				case "mkdir": operation.mkdir(); break;
+				case "chdir": operation.chdir(); break;
+				case "dir": operation.dir(); break;
+				case "logout": operation.logout(); break;
+				case "format": operation.format(); break;
 				case "0": break;
 				default : {
 					showWindow();
@@ -67,9 +84,23 @@ public class Controller {
 	 * 控制中心。
 	 */
 	public void control() {
-		operation.login();
+//		operation.login();
 		showWindow();
 		chooseOperation();
+	}
+	
+	/**
+	 * 输入命令处理。
+	 * @param order order.
+	 * @return 
+	 */
+	public ArrayList<String> dealWithOrder(String order) {
+		ArrayList<String> lists = new ArrayList<String>();
+		
+		lists.add(order.substring(0, order.indexOf(" ")));
+		order = order.substring(order.indexOf(" ") + 1);
+		lists.add(order);
+		return lists;
 	}
 	
 	public static void main(String[] args) {
