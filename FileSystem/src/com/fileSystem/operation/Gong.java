@@ -10,7 +10,7 @@ public class Gong {
 	 * 文件打开。
 	 */
 	public void open() {
-		
+		//
 	}
 	
 	/**
