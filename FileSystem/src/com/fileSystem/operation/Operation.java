@@ -43,7 +43,7 @@ public class Operation {
 	/**
 	 * 当前目录。
 	 */
-	private Path presentPath = new Path("root\\");
+	private Path presentPath;
 	
 	/**
 	 * 文件id,自增类型。
@@ -109,7 +109,7 @@ public class Operation {
 		if (file.isOpen()) {
 			System.out.print("please input data that your want to write: ");
 			String content = file.getContent();
-			content = content + in.next();
+			content = content + in.nextLine();
 			file.setContent(content);
 			file.setLength(content.length());
 			System.out.println(folders);
@@ -222,10 +222,6 @@ public class Operation {
 		id = id - 1;
 	}
 	
-	public Path getPath() {
-		return presentPath;
-	}
-	
 	/**
 	 * @return the isLogin
 	 */
@@ -269,8 +265,7 @@ public class Operation {
 	}
 
 	public Operation() {
-		pathMap.put(presentPath.getName(), presentPath);
-		folders.put(presentPath.getName(), new HashMap<String, UFile>());
+		
 	}
 
 	/**
@@ -336,4 +331,10 @@ public class Operation {
 		this.presentPath = presentPath;
 	}
 
+	public Operation(String username) {
+		this.username = username;
+		presentPath = new Path(username + "\\");
+		pathMap.put(presentPath.getName(), presentPath);
+		folders.put(presentPath.getName(), new HashMap<String, UFile>());
+	}
 }

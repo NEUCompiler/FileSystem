@@ -26,9 +26,13 @@ import com.fileSystem.operation.Operation;
  *
  */
 public class Controller {
-	
-	private Path presentPath = new Path();
+	/**
+	 * file.
+	 */
 	private UFile file;
+	/**
+	 * 当前用户名。
+	 */
 	private String presentUser = "";
 	
 	/**
@@ -66,9 +70,6 @@ public class Controller {
 	public void chooseOperation() {
 		String order;
 		ArrayList<String> lists;
-		login();
-		
-		presentPath = operation.getPath();
 		
 		while (!"exit".equals((order = in.nextLine()))) {
 			
@@ -76,7 +77,7 @@ public class Controller {
 			order = lists.get(0);
 			
 			if (!"".equals(lists.get(1))) { 
-				file = new UFile(operation.getId(), presentPath.getName() + lists.get(1), presentPath.getName());
+				file = new UFile(operation.getId(), operation.getPresentPath().getName() + lists.get(1), operation.getPresentPath().getName());
 			} 
 			
 			switch (order) {
@@ -108,7 +109,7 @@ public class Controller {
 	 * 控制中心。
 	 */
 	public void control() {
-//		operation.login();
+		login();
 		chooseOperation();
 	}
 	
@@ -183,15 +184,15 @@ public class Controller {
 		Map<String, UFile> fileMap;
 		
 		try {
-			File file = new File("resource/" + presentUser);
+			File file = new File("resource/" + presentUser + ".txt");
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			
-			deleteDir(new File("resource/root"));
+			deleteDir(new File("resource/" + presentUser));
 			if (!file.exists()) {
 				file.createNewFile();
 			}
 			
-			writer.write("PresentPath:\n" + presentPath + "\n");
+			writer.write("PresentPath:\n" + operation.getPresentPath() + "\n");
 			writer.write("\nPathMap:\n");
 			for (String pathName : pathMap.keySet()) {
 				writer.write(pathMap.get(pathName).toString() + "\n");
@@ -239,7 +240,7 @@ public class Controller {
 		HashMap<String, UFile> fileMap = new HashMap<>();
 		String key = "";
 		Path path = new Path();
-		File file = new File("resource/" + presentUser);
+		File file = new File("resource/" + presentUser + ".txt");
 		
 		if (!file.exists()) {
 			return;
@@ -252,10 +253,10 @@ public class Controller {
 			while ((line = reader.readLine()) != null) {
 				if (line.indexOf("PresentPath") == 0) {
 					line = reader.readLine();
-					presentPath.setName(line.substring(line.indexOf("name=")+5, line.indexOf(", parent")));
-					presentPath.setParent(line.substring(line.indexOf("parent=")+7, line.indexOf(", children")));
+					path.setName(line.substring(line.indexOf("name=")+5, line.indexOf(", parent")));
+					path.setParent(line.substring(line.indexOf("parent=")+7, line.indexOf(", children")));
 					//TODO children
-					operation.setPresentPath(presentPath);
+					operation.setPresentPath(path);
 				} else if (line.indexOf("PathMap") == 0) {
 					
 					while ((line = reader.readLine()).indexOf("name=") == 0) {
@@ -291,36 +292,17 @@ public class Controller {
 				}
 			}
 			
+			reader.close();
 		} catch (Exception e) {
 			throw new RuntimeException();
 		}
 	}
 	
-	public void initSystem() {
-		String password;
-		
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(
-					new File(USER_PATH)));
-			
-			String line;
-			while ((line = reader.readLine()) != null) {
-				if (line.indexOf("username:") >= 0) {
-					operation = new Operation();
-					operation.setUsername(line.substring(9, line.length()));
-					password = reader.readLine();
-					password = password.substring(9, password.length());
-					operation.setPassword(password);
-					users.put(operation.getUsername(), operation);
-				}
-			}
-			
-			reader.close();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
+	/**
+	 * 模拟删除文件夹。
+	 * @param dir
+	 * @return
+	 */
 	private static boolean deleteDir(File dir) {
         if (dir.isDirectory()) {
             String[] children = dir.list();
@@ -336,8 +318,31 @@ public class Controller {
         return dir.delete();
     }
 	
+	/**
+	 * 构造器实现部分初始化。
+	 */
 	public Controller() {
-		initSystem();
+		String password;
+		
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(
+					new File(USER_PATH)));
+			
+			String line;
+			while ((line = reader.readLine()) != null) {
+				if (line.indexOf("username:") >= 0) {
+					operation = new Operation(line.substring(9, line.length()));
+					password = reader.readLine();
+					password = password.substring(9, password.length());
+					operation.setPassword(password);
+					users.put(operation.getUsername(), operation);
+				}
+			}
+			
+			reader.close();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	public static void main(String[] args) {

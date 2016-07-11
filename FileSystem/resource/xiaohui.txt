@@ -1,0 +1,12 @@
+PresentPath:
+name=xiaohui\, parent=, children=null
+
+PathMap:
+name=xiaohui\, parent=, children=null
+
+Folders:
+FPN:
+xiaohui\
+FileMap:
+id=0, name=xiaohui\b.java, content=pulic, path=xiaohui\, length=5, type=.java, isOpen=true
+End;

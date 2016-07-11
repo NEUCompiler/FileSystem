@@ -1,0 +1,14 @@
+PresentPath:
+name=liuxinwei\, parent=, children=null
+
+PathMap:
+name=liuxinwei\, parent=, children=null
+
+Folders:
+FPN:
+liuxinwei\
+FileMap:
+id=0, name=liuxinwei\c.java, content=public static void main, path=liuxinwei\, length=23, type=.java, isOpen=false
+id=0, name=liuxinwei\a.txt, content=, path=liuxinwei\, length=0, type=.txt, isOpen=false
+id=0, name=liuxinwei\e.jpg, content=, path=liuxinwei\, length=0, type=.jpg, isOpen=false
+End;
