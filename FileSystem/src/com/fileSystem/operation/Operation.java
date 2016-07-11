@@ -1,6 +1,7 @@
 package com.fileSystem.operation;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,10 +33,16 @@ public class Operation {
 	 */
 	private HashMap<String, String> users = new HashMap<>();
 	
-	
-	private Map<Path, HashMap<String, UFile>> folders = new HashMap<>();
-	
+	/**
+	 * 路径集合。
+	 */
 	private Map<String, Path> pathMap = new HashMap<>();
+	
+	/**
+	 * 路径文件匹配集合。
+	 */
+	private Map<String, HashMap<String, UFile>> folders = new HashMap<>();
+	
 	/**
 	 * 文件集合。
 	 */
@@ -44,7 +51,7 @@ public class Operation {
 	/**
 	 * 当前目录。
 	 */
-	private Path presentPath;
+	private Path presentPath = new Path("root");
 	
 	/**
 	 * 文件id,自增类型。
@@ -60,64 +67,99 @@ public class Operation {
 	 * 文件创建。
 	 */
 	public void create(UFile file) {
-		
-		int id;
-		String name;
-		String location;
-		
-		System.out.println("please input the file ID:");
-		id = Integer.parseInt(in.next());
-		System.out.println("plese input the file name:");
-		name = in.next();
-		System.out.println("plese input the file location:");
-		location = in.next();
-		file = new UFile(id, name, location);
-		
-		if (name.indexOf(".") >= 0) {
-			file.setType(name.substring(name.indexOf("."), name.length()));
-		}
-		
-		if (fileMap.containsKey(id)) {
-			System.out.println("文件已经存在");
-			return;
+		String name = file.getName();
+		String path = file.getPath();
+		HashMap<String, UFile> files = folders.get(path);
+			
+		if (files.isEmpty() || (files.get(name) == null)) {
+			files.put(name, file);
+			System.out.println("文件创建成功");
+			addId();
 		} else {
-			fileMap.put("", file);
+			System.out.println("文件已经存在");
+			decId();
 		}
+//		System.out.println(folders);
 	}
 	
 	/**
 	 * 文件删除。
 	 */
-	public void delete() {
+	public void delete(UFile file) {
+		String name = file.getName();
+		String path = file.getPath();
+		HashMap<String, UFile> files = folders.get(path);
+		
+		if (files.get(name) == null) {
+			System.out.println("文件不存在");
+		} else {
+			files.remove(name);
+			System.out.println("文件删除成功");
+		}
 		
 	}
 	
 	/**
 	 * 文件读取。
 	 */
-	public void read() {
-		
+	public void read(UFile file) {
+		if (file.isOpen()) {
+			System.out.println(file.getContent());
+		} else {
+			System.out.println("文件未打开");
+		}
 	}
 	
 	/**
 	 * 文件写入。
 	 */
-	public void write() {
-		
+	public void write(UFile file) {
+		if (file.isOpen()) {
+			System.out.print("please input data that your want to write: ");
+			String content = file.getContent();
+			content = content + in.next();
+			file.setContent(content);
+			System.out.println(folders);
+		} else {
+			System.out.println("文件未打开");
+		}
 	}
 	
 	/**
 	 * 文件打开。
 	 */
-	public void open() {
-		
+	public UFile open(UFile file) {
+		String name = file.getName();
+		String path = file.getPath();
+		HashMap<String, UFile> files = folders.get(path);
+			
+		if (files.get(name) == null) {
+			System.out.println("文件不存在");
+			file = null;
+		} else {
+			file = files.get(name);
+			file.setOpen(true);
+			System.out.println("文件已经打开");
+		}
+	
+		return file;
 	}
 	
 	/**
 	 * 文件关闭。
 	 */
-	public void close() {
-		
+	public void close(UFile file) {
+		String name = file.getName();
+		String path = file.getPath();
+		HashMap<String, UFile> files = folders.get(path);
+			
+		if (files.get(name) == null) {
+			System.out.println("文件不存在");
+			file = null;
+		} else {
+			files.get(name).setOpen(false);
+			System.out.println("文件已经关闭");
+		}
 	}
 	
 	/**
@@ -236,5 +278,14 @@ public class Operation {
 	
 	public void decId() {
 		id = id - 1;
+	}
+	
+	public Path getPath() {
+		return presentPath;
+	}
+	
+	public Operation() {
+		pathMap.put(presentPath.getName(), presentPath);
+		folders.put(presentPath.getName(), new HashMap<String, UFile>());
 	}
 }

@@ -6,6 +6,15 @@ public class Path {
 	private String name;
 	private String parent;
 	private ArrayList<String> children;
+	
+	public Path() {
+		
+	}
+	
+	public Path(String name) {
+		this.name = name;
+	}
+	
 	/**
 	 * @return the name
 	 */

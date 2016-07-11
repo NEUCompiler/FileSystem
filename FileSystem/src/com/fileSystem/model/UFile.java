@@ -3,10 +3,11 @@ package com.fileSystem.model;
 public class UFile {
 	private int id;
 	private String name;
-	private String content;
-	private String location;
+	private String content = "";
+	private String path;
 	private int length;
 	private String type;
+	private boolean isOpen;
 	
 	/**
 	 * default construct.
@@ -18,13 +19,13 @@ public class UFile {
 	/**
 	 * @param id
 	 * @param name
-	 * @param location
+	 * @param path
 	 */
-	public UFile(int id, String name, String location) {
+	public UFile(int id, String name, String path) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.location = location;
+		this.path = path;
 	}
 	/**
 	 * @return the id
@@ -63,16 +64,16 @@ public class UFile {
 		this.content = content;
 	}
 	/**
-	 * @return the location
+	 * @return the path
 	 */
-	public String getLocation() {
-		return location;
+	public String getPath() {
+		return path;
 	}
 	/**
-	 * @param location the location to set
+	 * @param path the path to set
 	 */
-	public void setLocation(String location) {
-		this.location = location;
+	public void setPath(String path) {
+		this.path = path;
 	}
 	/**
 	 * @return the length
@@ -99,13 +100,28 @@ public class UFile {
 		this.type = type;
 	}
 	
+	/**
+	 * @return the isOpen
+	 */
+	public boolean isOpen() {
+		return isOpen;
+	}
+
+	/**
+	 * @param isOpen the isOpen to set
+	 */
+	public void setOpen(boolean isOpen) {
+		this.isOpen = isOpen;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "File [id=" + id + ", name=" + name + ", content=" + content
-				+ ", location=" + location + ", length=" + length + ", type="
-				+ type + "]";
+		return "UFile [id=" + id + ", name=" + name + ", content=" + content
+				+ ", path=" + path + ", length=" + length + ", type=" + type
+				+ ", isOpen=" + isOpen + "]";
 	}
+	
 }
