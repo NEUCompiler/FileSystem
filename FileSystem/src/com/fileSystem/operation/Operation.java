@@ -43,7 +43,7 @@ public class Operation {
 	/**
 	 * 当前目录。
 	 */
-	private Path presentPath = new Path("root");
+	private Path presentPath = new Path("root:\\");
 	
 	/**
 	 * 文件id,自增类型。
@@ -59,7 +59,6 @@ public class Operation {
 	 * 文件创建。
 	 */
 	public void create(UFile file) {
-		/*
 		String name = file.getName();
 		String path = file.getPath();
 		HashMap<String, UFile> files = folders.get(path);
@@ -73,7 +72,6 @@ public class Operation {
 			decId();
 		}
 //		System.out.println(folders);
- * */
 	}
 	
 	/**
@@ -288,10 +286,24 @@ public class Operation {
 	}
 
 	/**
+	 * @param pathMap the pathMap to set
+	 */
+	public void setPathMap(Map<String, Path> pathMap) {
+		this.pathMap = pathMap;
+	}
+
+	/**
 	 * @return the folders
 	 */
 	public Map<String, HashMap<String, UFile>> getFolders() {
 		return folders;
+	}
+
+	/**
+	 * @param folders the folders to set
+	 */
+	public void setFolders(Map<String, HashMap<String, UFile>> folders) {
+		this.folders = folders;
 	}
 
 	/**
@@ -302,10 +314,24 @@ public class Operation {
 	}
 
 	/**
+	 * @param fileMap the fileMap to set
+	 */
+	public void setFileMap(Map<String, UFile> fileMap) {
+		this.fileMap = fileMap;
+	}
+
+	/**
 	 * @return the presentPath
 	 */
 	public Path getPresentPath() {
 		return presentPath;
 	}
-	
+
+	/**
+	 * @param presentPath the presentPath to set
+	 */
+	public void setPresentPath(Path presentPath) {
+		this.presentPath = presentPath;
+	}
+
 }

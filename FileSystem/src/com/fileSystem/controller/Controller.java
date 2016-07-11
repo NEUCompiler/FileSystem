@@ -3,6 +3,7 @@ package com.fileSystem.controller;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -75,7 +76,7 @@ public class Controller {
 			order = lists.get(0);
 			
 			if (!"".equals(lists.get(1))) { 
-				file = new UFile(operation.getId(), lists.get(1), presentPath.getName());
+				file = new UFile(operation.getId(), presentPath.getName() + lists.get(1), presentPath.getName());
 			} 
 			
 			switch (order) {
@@ -93,8 +94,8 @@ public class Controller {
 				case "login": login(); break;
 				case "0": break;
 				default : {
-					showWindow();
 					System.out.println("Your demand is wrong, please input again:");
+					showWindow();
 					continue;
 				}
 			}
@@ -108,7 +109,6 @@ public class Controller {
 	 */
 	public void control() {
 //		operation.login();
-		showWindow();
 		chooseOperation();
 	}
 	
@@ -142,24 +142,26 @@ public class Controller {
 		
 		System.out.println("*************************Login**********************");
 		System.out.println("username:");
-		username = in.next();
+		username = in.nextLine();
 		System.out.println("password:");
-		password = in.next();
+		password = in.nextLine();
 		
 		if (users.containsKey(username)) {
 			if (password.equals(users.get(username).getPassword())) {
 				
 				if (operation.isLogin() == true) {
-					saveUserdata();
+					ExportUserdata();
 				}
 				
 				System.out.println("Login success!");
 				presentUser = username;
 				operation = users.get(presentUser);
 				operation.setLogin(true);
+				importUserData();
 			} else {
 				System.out.println("password wrong!");
 			}
+			showWindow();
 		} else {
 			System.out.println("username is not exist!");
 		}
@@ -169,22 +171,19 @@ public class Controller {
 	 * 退出。
 	 */
 	public void logout() {
-		saveUserdata();
+		ExportUserdata();
 	}
 	
 	/**
 	 * 保存用户数据。
 	 */
-	public void saveUserdata() {
-		String presentPath = operation.getPresentPath().getName();
+	public void ExportUserdata() {
 		Map<String, Path> pathMap = (HashMap<String, Path>)operation.getPathMap();
 		Map<String, HashMap<String, UFile>> folders	 = (HashMap<String, HashMap<String, UFile>>)operation.getFolders();
-		Map<String, UFile> fileMap = (HashMap<String, UFile>)operation.getFileMap();
+		Map<String, UFile> fileMap;
 		
 		try {
-			String filePath = this.getClass().getResource("/").toString();
-			filePath = filePath.substring(0, filePath.length()-4) + "/resourse/";
-			File file = new File(filePath, presentUser + ".txt");
+			File file = new File("resource/" + presentUser);
 			
 			if (!file.exists()) {
 				file.createNewFile();
@@ -192,18 +191,91 @@ public class Controller {
 			
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			
-			writer.write("presentPath:" + presentPath + "\n");
-			writer.write("pathMap:\n");
+			writer.write("PresentPath:\n" + presentPath + "\n");
+			writer.write("\nPathMap:\n");
 			for (String pathName : pathMap.keySet()) {
 				writer.write(pathMap.get(pathName).toString() + "\n");
 			}
 			
-			writer.write("fileMap:\n");
-			for (String fileName : fileMap.keySet()) {
-				writer.write(fileMap.get(fileName).toString() + "\n");
+			writer.write("\nFolders:\n");
+			for (String pathName : folders.keySet()) {
+				writer.write("FPN:\n");
+				writer.write(pathName + "\n");
+				fileMap = (HashMap<String, UFile>)folders.get(pathName);
+				writer.write("FileMap:\n");
+				for (String fileName : fileMap.keySet()) {
+					writer.write(fileMap.get(fileName).toString() + "\n");
+				}
 			}
 			
+			writer.write("End;");
 			writer.close();
+			
+		} catch (Exception e) {
+			throw new RuntimeException();
+		}
+	}
+	
+	/**
+	 * 导入用户数据。
+	 */
+	public void importUserData() {
+		Map<String, Path> pathMap = new HashMap<>();
+		Map<String, HashMap<String, UFile>> folders = new HashMap<>();
+		HashMap<String, UFile> fileMap = new HashMap<>();
+		String key = "";
+		Path path = new Path();
+		File file = new File("resource/" + presentUser);
+		
+		if (!file.exists()) {
+			return;
+		}
+		
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			String line;
+			
+			while ((line = reader.readLine()) != null) {
+				if (line.indexOf("PresentPath") == 0) {
+					line = reader.readLine();
+					presentPath.setName(line.substring(line.indexOf("name=")+5, line.indexOf(", parent")));
+					presentPath.setParent(line.substring(line.indexOf("parent=")+7, line.indexOf(", children")));
+					//TODO children
+					operation.setPresentPath(presentPath);
+				} else if (line.indexOf("PathMap") == 0) {
+					
+					while ((line = reader.readLine()).indexOf("name=") == 0) {
+						key = line.substring(line.indexOf("name=")+5, line.indexOf(", parent"));
+						path.setName(key);
+						path.setParent(line.substring(line.indexOf("parent=")+7, line.indexOf(", children")));
+						//TODO children
+						pathMap.put(key, path);
+					}
+					operation.setPathMap(pathMap);
+				} else if (line.indexOf("Folders") == 0) {
+					
+					while ((line = reader.readLine()) != null) {
+						if (line.indexOf("FPN") == 0) {
+							key = reader.readLine();
+						} else if (line.indexOf("FileMap") == 0) {
+							
+							while ((line = reader.readLine()).indexOf("id=") == 0) {
+								UFile uFile = new UFile();
+								uFile.setId(Integer.parseInt(line.substring(3, line.indexOf(", name="))));
+								uFile.setName(line.substring(line.indexOf("name=")+5, line.indexOf(", content=")));
+								uFile.setContent(line.substring(line.indexOf("content=")+8, line.indexOf(", path=")));
+								uFile.setPath(line.substring(line.indexOf("path=")+5, line.indexOf(", length=")));
+								uFile.setId(Integer.parseInt(line.substring(line.indexOf("length=")+7, line.indexOf(", type="))));
+								uFile.setType(line.substring(line.indexOf("type=")+5, line.indexOf(", isOpen=")));
+								uFile.setOpen(Boolean.parseBoolean(line.substring(line.indexOf("isOpen=")+7, line.length())));
+								fileMap.put(uFile.getName(), uFile);
+							}
+							folders.put(key,fileMap);
+						}
+					}
+					operation.setFolders(folders);
+				}
+			}
 			
 		} catch (Exception e) {
 			throw new RuntimeException();

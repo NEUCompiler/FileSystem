@@ -119,9 +119,9 @@ public class UFile {
 	 */
 	@Override
 	public String toString() {
-		return "UFile [id=" + id + ", name=" + name + ", content=" + content
+		return "id=" + id + ", name=" + name + ", content=" + content
 				+ ", path=" + path + ", length=" + length + ", type=" + type
-				+ ", isOpen=" + isOpen + "]";
+				+ ", isOpen=" + isOpen;
 	}
 	
 }

@@ -1,0 +1,12 @@
+PresentPath:
+name=root:\, parent=, children=null
+
+PathMap:
+name=root:\, parent=, children=null
+
+Folders:
+FPN:
+root:\
+FileMap:
+id=0, name=root:\c.txt, content=, path=root:\, length=0, type=null, isOpen=false
+End;

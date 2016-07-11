@@ -3,8 +3,8 @@ package com.fileSystem.model;
 import java.util.ArrayList;
 
 public class Path {
-	private String name;
-	private String parent;
+	private String name = "";
+	private String parent = "";
 	private ArrayList<String> children;
 	
 	public Path() {
