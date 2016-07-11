@@ -43,7 +43,7 @@ public class Operation {
 	/**
 	 * 当前目录。
 	 */
-	private Path presentPath = new Path("root:\\");
+	private Path presentPath = new Path("root\\");
 	
 	/**
 	 * 文件id,自增类型。
@@ -61,6 +61,7 @@ public class Operation {
 	public void create(UFile file) {
 		String name = file.getName();
 		String path = file.getPath();
+		file.setType(name.substring(name.indexOf(".")));
 		HashMap<String, UFile> files = folders.get(path);
 			
 		if (files.isEmpty() || (files.get(name) == null)) {
@@ -110,6 +111,7 @@ public class Operation {
 			String content = file.getContent();
 			content = content + in.next();
 			file.setContent(content);
+			file.setLength(content.length());
 			System.out.println(folders);
 		} else {
 			System.out.println("文件未打开");

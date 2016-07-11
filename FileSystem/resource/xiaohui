@@ -1,12 +1,11 @@
 PresentPath:
-name=root:\, parent=, children=null
+name=root:, parent=, children=null
 
 PathMap:
-name=root:\, parent=, children=null
+name=root:, parent=, children=null
 
 Folders:
 FPN:
 root:\
 FileMap:
-id=0, name=root:\b.txt, content=45454, path=root:\, length=0, type=null, isOpen=false
 End;

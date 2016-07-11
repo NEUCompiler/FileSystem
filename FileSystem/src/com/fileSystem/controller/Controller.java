@@ -184,17 +184,23 @@ public class Controller {
 		
 		try {
 			File file = new File("resource/" + presentUser);
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			
+			deleteDir(new File("resource/root"));
 			if (!file.exists()) {
 				file.createNewFile();
 			}
-			
-			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			
 			writer.write("PresentPath:\n" + presentPath + "\n");
 			writer.write("\nPathMap:\n");
 			for (String pathName : pathMap.keySet()) {
 				writer.write(pathMap.get(pathName).toString() + "\n");
+				
+				File path = new File("resource/" + pathName.substring(0, pathName.length()-1));   
+				if  (!path.exists()  && !path.isDirectory())      
+				{       
+					path.mkdir();    
+				}
 			}
 			
 			writer.write("\nFolders:\n");
@@ -205,6 +211,14 @@ public class Controller {
 				writer.write("FileMap:\n");
 				for (String fileName : fileMap.keySet()) {
 					writer.write(fileMap.get(fileName).toString() + "\n");
+					
+					File f = new File("resource/" + fileName);    
+					if(!f.exists()) {
+						f.createNewFile();
+						BufferedWriter bF = new BufferedWriter(new FileWriter(f));
+						bF.write(fileMap.get(fileName).getContent());
+						bF.close();
+					}
 				}
 			}
 			
@@ -212,7 +226,7 @@ public class Controller {
 			writer.close();
 			
 		} catch (Exception e) {
-			throw new RuntimeException();
+			e.printStackTrace();
 		}
 	}
 	
@@ -306,6 +320,21 @@ public class Controller {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	private static boolean deleteDir(File dir) {
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            //递归删除目录中的子目录下
+            for (int i=0; i<children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        // 目录此时为空，可以删除
+        return dir.delete();
+    }
 	
 	public Controller() {
 		initSystem();
