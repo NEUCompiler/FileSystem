@@ -51,6 +51,16 @@ public class Path {
 	public void setChildren(ArrayList<String> children) {
 		this.children = children;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "name=" + name + ", parent=" + parent + ", children="
+				+ children;
+	}
+	
 	
 	
 }

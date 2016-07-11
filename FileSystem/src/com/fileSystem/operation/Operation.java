@@ -1,7 +1,6 @@
 package com.fileSystem.operation;
 
 import java.io.*;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,20 +17,13 @@ import com.fileSystem.model.UFile;
  */
 public class Operation {
 	
+	private String username = "";
+	private String password = "";
+	
 	/**
 	 * 扫描器。
 	 */
 	private Scanner in = new Scanner(System.in);
-	
-	/**
-	 * 用户路径。
-	 */
-	private static final String USER_PATH = "resource/login.txt";
-	
-	/**
-	 * 用户集合。
-	 */
-	private HashMap<String, String> users = new HashMap<>();
 	
 	/**
 	 * 路径集合。
@@ -67,6 +59,7 @@ public class Operation {
 	 * 文件创建。
 	 */
 	public void create(UFile file) {
+		/*
 		String name = file.getName();
 		String path = file.getPath();
 		HashMap<String, UFile> files = folders.get(path);
@@ -80,6 +73,7 @@ public class Operation {
 			decId();
 		}
 //		System.out.println(folders);
+ * */
 	}
 	
 	/**
@@ -96,7 +90,6 @@ public class Operation {
 			files.remove(name);
 			System.out.println("文件删除成功");
 		}
-		
 	}
 	
 	/**
@@ -208,58 +201,7 @@ public class Operation {
 		
 	}
 	
-	/**
-	 * 登陆。
-	 */
-	public void login() {
-		String username;
-		String password;
-		
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(
-					new File(USER_PATH)));
-			
-			String line;
-			while ((line = reader.readLine()) != null) {
-				if (line.indexOf("username:") >= 0) {
-					username = line.substring(9, line.length());
-					password = reader.readLine();
-					password = password.substring(9, password.length());
-					users.put(username, password);
-				}
-			}
-			
-			reader.close();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		
-		while (!isLogin) {
-			System.out.println("*************************Login**********************");
-			System.out.println("username:");
-			username = in.next();
-			System.out.println("password:");
-			password = in.next();
-			
-			if (users.containsKey(username)) {
-				if (password.equals(users.get(username))) {
-					System.out.println("Login success!");
-					isLogin = true;
-				} else {
-					System.out.println("password wrong!");
-				}
-			} else {
-				System.out.println("username is not exist!");
-			}
-		}
-	}
 	
-	/**
-	 * 退出。
-	 */
-	public void logout() {
-		
-	}
 	
 	/**
 	 * 格式化。
@@ -284,8 +226,86 @@ public class Operation {
 		return presentPath;
 	}
 	
+	/**
+	 * @return the isLogin
+	 */
+	public boolean isLogin() {
+		return isLogin;
+	}
+
+	/**
+	 * @param isLogin the isLogin to set
+	 */
+	public void setLogin(boolean isLogin) {
+		this.isLogin = isLogin;
+	}
+
+	/**
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
+	}
+
+	/**
+	 * @param username the username to set
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public Operation() {
 		pathMap.put(presentPath.getName(), presentPath);
 		folders.put(presentPath.getName(), new HashMap<String, UFile>());
 	}
+
+	/**
+	 * @return the in
+	 */
+	public Scanner getIn() {
+		return in;
+	}
+
+	/**
+	 * @return the pathMap
+	 */
+	public Map<String, Path> getPathMap() {
+		return pathMap;
+	}
+
+	/**
+	 * @return the folders
+	 */
+	public Map<String, HashMap<String, UFile>> getFolders() {
+		return folders;
+	}
+
+	/**
+	 * @return the fileMap
+	 */
+	public Map<String, UFile> getFileMap() {
+		return fileMap;
+	}
+
+	/**
+	 * @return the presentPath
+	 */
+	public Path getPresentPath() {
+		return presentPath;
+	}
+	
 }

@@ -1,7 +1,19 @@
 package com.fileSystem.controller;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+
+import javax.management.RuntimeErrorException;
+import javax.naming.InitialContext;
+
 import com.fileSystem.model.Path;
 import com.fileSystem.model.UFile;
 import com.fileSystem.operation.Operation;
@@ -14,9 +26,9 @@ import com.fileSystem.operation.Operation;
  */
 public class Controller {
 	
-	private String command;
 	private Path presentPath = new Path();
-	private UFile file ;
+	private UFile file;
+	private String presentUser = "";
 	
 	/**
 	 * 扫描器。
@@ -26,7 +38,19 @@ public class Controller {
 	/**
 	 * 操作。
 	 */
-	private Operation operation = new Operation();
+	private Operation operation;
+	
+	/**
+	 * 用户路径。
+	 */
+	private static final String USER_PATH = "resource/login.txt";
+	
+	/**
+	 * 用户集合。
+	 */
+	private HashMap<String, Operation> users = new HashMap<>();
+	
+	
 	
 	/**
 	 * 显示界面。
@@ -41,6 +65,7 @@ public class Controller {
 	public void chooseOperation() {
 		String order;
 		ArrayList<String> lists;
+		login();
 		
 		presentPath = operation.getPath();
 		
@@ -63,9 +88,9 @@ public class Controller {
 				case "mkdir": operation.mkdir("12"); break;
 				case "chdir": operation.chdir(); break;
 				case "dir": operation.dir(); break;
-				case "logout": operation.logout(); break;
+				case "logout": logout(); break;
 				case "format": operation.format(); break;
-				case "login": operation.login(); break;
+				case "login": login(); break;
 				case "0": break;
 				default : {
 					showWindow();
@@ -106,6 +131,112 @@ public class Controller {
 		order = order.substring(order.indexOf(" ") + 1);
 		lists.add(order);
 		return lists;
+	}
+	
+	/**
+	 * 登陆。
+	 */
+	public void login() {
+		String username;
+		String password;
+		
+		System.out.println("*************************Login**********************");
+		System.out.println("username:");
+		username = in.next();
+		System.out.println("password:");
+		password = in.next();
+		
+		if (users.containsKey(username)) {
+			if (password.equals(users.get(username).getPassword())) {
+				
+				if (operation.isLogin() == true) {
+					saveUserdata();
+				}
+				
+				System.out.println("Login success!");
+				presentUser = username;
+				operation = users.get(presentUser);
+				operation.setLogin(true);
+			} else {
+				System.out.println("password wrong!");
+			}
+		} else {
+			System.out.println("username is not exist!");
+		}
+	}
+	
+	/**
+	 * 退出。
+	 */
+	public void logout() {
+		saveUserdata();
+	}
+	
+	/**
+	 * 保存用户数据。
+	 */
+	public void saveUserdata() {
+		String presentPath = operation.getPresentPath().getName();
+		Map<String, Path> pathMap = (HashMap<String, Path>)operation.getPathMap();
+		Map<String, HashMap<String, UFile>> folders	 = (HashMap<String, HashMap<String, UFile>>)operation.getFolders();
+		Map<String, UFile> fileMap = (HashMap<String, UFile>)operation.getFileMap();
+		
+		try {
+			String filePath = this.getClass().getResource("/").toString();
+			filePath = filePath.substring(0, filePath.length()-4) + "/resourse/";
+			File file = new File(filePath, presentUser + ".txt");
+			
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+			
+			writer.write("presentPath:" + presentPath + "\n");
+			writer.write("pathMap:\n");
+			for (String pathName : pathMap.keySet()) {
+				writer.write(pathMap.get(pathName).toString() + "\n");
+			}
+			
+			writer.write("fileMap:\n");
+			for (String fileName : fileMap.keySet()) {
+				writer.write(fileMap.get(fileName).toString() + "\n");
+			}
+			
+			writer.close();
+			
+		} catch (Exception e) {
+			throw new RuntimeException();
+		}
+	}
+	
+	public void initSystem() {
+		String password;
+		
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(
+					new File(USER_PATH)));
+			
+			String line;
+			while ((line = reader.readLine()) != null) {
+				if (line.indexOf("username:") >= 0) {
+					operation = new Operation();
+					operation.setUsername(line.substring(9, line.length()));
+					password = reader.readLine();
+					password = password.substring(9, password.length());
+					operation.setPassword(password);
+					users.put(operation.getUsername(), operation);
+				}
+			}
+			
+			reader.close();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public Controller() {
+		initSystem();
 	}
 	
 	public static void main(String[] args) {
