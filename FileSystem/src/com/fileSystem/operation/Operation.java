@@ -111,7 +111,6 @@ public class Operation {
 			content = content + in.nextLine();
 			file.setContent(content);
 			file.setLength(content.length());
-			System.out.println(folders);
 		} else {
 			System.out.println("文件未打开");
 		}
