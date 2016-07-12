@@ -63,7 +63,7 @@ public class Operation {
 		file.setType(name.substring(name.indexOf(".")));
 		HashMap<String, UFile> files = folders.get(path);
 			
-		if (files.isEmpty() || (files.get(name) == null)) {
+		if (files.isEmpty() || (files.get(name) == null) || files == null) {
 			files.put(name, file);
 			System.out.println("文件创建成功");
 			addId();

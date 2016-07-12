@@ -195,16 +195,28 @@ public class Controller {
 				
 				pathName = pathName.substring(0, pathName.length()-1);
 				pathName = pathName.replace(":", "");
-				File path = new File("resource/" + pathName);   
-				if  (!path.exists()  && !path.isDirectory())      
-				{       
-					path.mkdir();    
+				
+				//建立文件夹。
+				String[] splits = pathName.split("\\\\");
+				pathName = "";
+				
+				for (String item : splits) {
+					pathName = pathName + item;
+					File path = new File("resource/" + pathName);
+					
+					if  (!path.exists() && !path.isDirectory())      
+					{       
+						path.mkdir();    
+					}
+					
+					pathName = pathName + "\\";
 				}
+				
 			}
 			
 			writer.write("\nFolders:\n");
 			for (String pathName : folders.keySet()) {
-				writer.write("FPN:\n");
+				writer.write("\nFPN:\n");
 				writer.write(pathName + "\n");
 				fileMap = (HashMap<String, UFile>)folders.get(pathName);
 				writer.write("FileMap:\n");
@@ -274,8 +286,8 @@ public class Controller {
 						for (String string : splits) {
 							path.getChildren().add(string);
 						}
+						pathMap.put(key, path);
 					}
-					pathMap.put(key, path);
 					operation.setPathMap(pathMap);
 				} else if (line.indexOf("Folders") == 0) {
 					
@@ -283,7 +295,7 @@ public class Controller {
 						if (line.indexOf("FPN") == 0) {
 							key = reader.readLine();
 						} else if (line.indexOf("FileMap") == 0) {
-							
+//							fileMap = new HashMap<String, UFile>();
 							while ((line = reader.readLine()).indexOf("id=") == 0) {
 								UFile uFile = new UFile();
 								uFile.setId(Integer.parseInt(line.substring(3, line.indexOf(", name="))));
