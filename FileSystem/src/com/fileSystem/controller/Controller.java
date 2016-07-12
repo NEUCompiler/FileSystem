@@ -51,7 +51,7 @@ public class Controller {
 	 */
 	private HashMap<String, Operation> users = new HashMap<>();
 	
-	
+	private boolean islogin;
 	
 	/**
 	 * 显示界面。
@@ -91,12 +91,18 @@ public class Controller {
 				case "login": login(); break;
 				case "0": break;
 				default : {
+					
 					System.out.println("Your demand is wrong, please input again:");
-					showWindow();
+					if (islogin) {
+						showWindow();
+					} else {
+						System.out.print("root:>");
+					}
+					
 					continue;
 				}
 			}
-			showWindow();
+//			showWindow();
 		}
 		
 	}
@@ -155,12 +161,20 @@ public class Controller {
 				operation = users.get(presentUser);
 				operation.setLogin(true);
 				importUserData();
+				showWindow();
+				islogin = true;
 			} else {
 				System.out.println("password wrong!");
+				System.out.print("root:>");
 			}
-			showWindow();
 		} else {
 			System.out.println("username is not exist!");
+			if (islogin) {
+				showWindow();
+			} else {
+				System.out.print("root:>");
+			}
+			
 		}
 	}
 	
