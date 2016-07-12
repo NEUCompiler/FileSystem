@@ -85,7 +85,7 @@ public class Controller {
 				case "delete": operation.delete(file); break;
 				case "mkdir": operation.mkdir(lists.get(1)); break;
 				case "chdir": operation.chdir(lists.get(1)); break;
-				case "dir": operation.dir(); break;
+				case "dir": operation.dir(lists.get(1)); break;
 				case "logout": logout(); break;
 				case "format": operation.format(); break;
 				case "login": login(); break;

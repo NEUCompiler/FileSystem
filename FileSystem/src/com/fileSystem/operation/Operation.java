@@ -153,11 +153,8 @@ public class Operation {
 		}
 	}
 	
-	/**
-	 * 创建目录,需提供创建目录名(newPath),在当前目录下创建.
-	 */
 	public void mkdir(String newPath) {
-	
+		
 		//对空Path，进行name, patrent操作。
 		String name = presentPath.getName() + newPath + "\\";
 		//查找Pathmap ,有的话就退出，没有就写入。
@@ -173,7 +170,6 @@ public class Operation {
 			//修改当前path的chird节点。
 			ArrayList<String> children = pathMap.get(presentPath.getName()).getChildren();
 			children.add(name);
-			
 			folders.put(name, new HashMap<String, UFile>());
 			pathMap.get(presentPath.getName()).setChildren(children);
 		}
@@ -208,9 +204,24 @@ public class Operation {
 	
 	/**
 	 * 列出文件目录。
+	 * 需提供目标目录。
 	 */
-	public void dir() {
-		
+	public void dir(String newPath) {
+		ArrayList<String> children = new ArrayList<String>();
+		//*列出当前目录下的子目录
+		if (newPath.indexOf(":")>0){
+			 children = pathMap.get(newPath).getChildren();
+		}
+		else //*列出绝对路径下的子目录
+		{
+			 children = pathMap.get(presentPath.getName()).getChildren();
+		}
+		if(children.size() == 1){
+			 System.out.println("null");
+		}
+		for(int i = 1;i<children.size();i++){
+	            System.out.println(i+"  "+children.get(i));            
+		}
 	}
 	
 	
