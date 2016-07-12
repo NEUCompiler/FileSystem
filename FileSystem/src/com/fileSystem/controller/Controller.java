@@ -3,17 +3,13 @@ package com.fileSystem.controller;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-
-import javax.management.RuntimeErrorException;
-import javax.naming.InitialContext;
 
 import com.fileSystem.model.Path;
 import com.fileSystem.model.UFile;
@@ -61,7 +57,7 @@ public class Controller {
 	 * 显示界面。
 	 */
 	public void showWindow() {
-		System.out.print("root:>");
+		System.out.print(operation.getPresentPath().getName() + ">");
 	}
 	
 	/**
@@ -87,8 +83,8 @@ public class Controller {
 				case "write": operation.write(file); break;
 				case "close": operation.close(file); break;
 				case "delete": operation.delete(file); break;
-				case "mkdir": operation.mkdir("12"); break;
-				case "chdir": operation.chdir("12"); break;
+				case "mkdir": operation.mkdir(lists.get(1)); break;
+				case "chdir": operation.chdir(lists.get(1)); break;
 				case "dir": operation.dir(); break;
 				case "logout": logout(); break;
 				case "format": operation.format(); break;
@@ -197,7 +193,9 @@ public class Controller {
 			for (String pathName : pathMap.keySet()) {
 				writer.write(pathMap.get(pathName).toString() + "\n");
 				
-				File path = new File("resource/" + pathName.substring(0, pathName.length()-1));   
+				pathName = pathName.substring(0, pathName.length()-1);
+				pathName = pathName.replace(":", "");
+				File path = new File("resource/" + pathName);   
 				if  (!path.exists()  && !path.isDirectory())      
 				{       
 					path.mkdir();    
@@ -213,7 +211,7 @@ public class Controller {
 				for (String fileName : fileMap.keySet()) {
 					writer.write(fileMap.get(fileName).toString() + "\n");
 					
-					File f = new File("resource/" + fileName);    
+					File f = new File("resource/" + fileName.replace(":", ""));    
 					if(!f.exists()) {
 						f.createNewFile();
 						BufferedWriter bF = new BufferedWriter(new FileWriter(f));
@@ -255,17 +253,29 @@ public class Controller {
 					line = reader.readLine();
 					path.setName(line.substring(line.indexOf("name=")+5, line.indexOf(", parent")));
 					path.setParent(line.substring(line.indexOf("parent=")+7, line.indexOf(", children")));
-					//TODO children
+					line = line.substring(line.indexOf("children=[")+10, line.indexOf("]"));
+					String[] splits = line.split(", ");
+					
+					for (String string : splits) {
+						path.getChildren().add(string);
+					}
+					
 					operation.setPresentPath(path);
 				} else if (line.indexOf("PathMap") == 0) {
 					
 					while ((line = reader.readLine()).indexOf("name=") == 0) {
+						path = new Path();
 						key = line.substring(line.indexOf("name=")+5, line.indexOf(", parent"));
 						path.setName(key);
 						path.setParent(line.substring(line.indexOf("parent=")+7, line.indexOf(", children")));
-						//TODO children
-						pathMap.put(key, path);
+						line = line.substring(line.indexOf("children=[")+10, line.indexOf("]"));
+						String[] splits = line.split(", ");
+						
+						for (String string : splits) {
+							path.getChildren().add(string);
+						}
 					}
+					pathMap.put(key, path);
 					operation.setPathMap(pathMap);
 				} else if (line.indexOf("Folders") == 0) {
 					

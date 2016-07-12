@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Path {
 	private String name = "";
 	private String parent = "";
-	private ArrayList<String> children;
+	private ArrayList<String> children = new ArrayList<String>();
 	
 	public Path() {
 		

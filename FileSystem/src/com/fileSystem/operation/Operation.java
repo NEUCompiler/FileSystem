@@ -1,6 +1,5 @@
 package com.fileSystem.operation;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -161,7 +160,7 @@ public class Operation {
 	public void mkdir(String newPath) {
 	
 		//对空Path，进行name, patrent操作。
-		String name = presentPath.getName() + "\\" + newPath;
+		String name = presentPath.getName() + newPath + "\\";
 		//查找Pathmap ,有的话就退出，没有就写入。
 		if (pathMap.containsKey(name)) {
 			System.out.println("已经存在");
@@ -176,6 +175,7 @@ public class Operation {
 			ArrayList<String> children = pathMap.get(presentPath.getName()).getChildren();
 			children.add(name);
 			
+			folders.put(name, new HashMap<String, UFile>());
 			pathMap.get(presentPath.getName()).setChildren(children);
 		}
 	}
@@ -185,25 +185,22 @@ public class Operation {
 	 * (替换当前目录presentPath 用目标目录newPath 如：cd C:/A/Java)
 	 */
 	public void chdir(String newPath) {
+		newPath = newPath + "\\";
 		//只有一种操作： 对presentPath 进行替换， 从pathmap拿出替换。
 		//查找Pathmap ,有的话就退出，没有就写入.(绝对路径.)绝对路径 如：cd C:/A/Java
 		if (newPath.indexOf(":")>0){
 			//绝对路径查询
 			if (pathMap.containsKey(newPath)) {
-				presentPath.setName(newPath);
-				presentPath.setParent(pathMap.get(newPath).getParent());
-				presentPath.setChildren(pathMap.get(newPath).getChildren());
+				presentPath = pathMap.get(newPath);
 			} else {
 				System.out.println("目录不存在");
 			}
 		}
 		else{
 			//相对路径查询
-			String name = presentPath.getParent() + "\\" + newPath;
+			String name = presentPath.getName() + newPath;
 			if (pathMap.containsKey(name)){
-				presentPath.setParent(presentPath.getName());
-				presentPath.setName(name);
-				presentPath.setChildren(pathMap.get(name).getChildren());
+				presentPath = pathMap.get(name);
 			} else {
 				System.out.println("目录不存在");
 			}
@@ -349,7 +346,7 @@ public class Operation {
 
 	public Operation(String username) {
 		this.username = username;
-		presentPath = new Path(username + "\\");
+		presentPath = new Path(username + ":\\");
 		pathMap.put(presentPath.getName(), presentPath);
 		folders.put(presentPath.getName(), new HashMap<String, UFile>());
 	}

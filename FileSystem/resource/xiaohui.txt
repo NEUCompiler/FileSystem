@@ -1,12 +1,16 @@
 PresentPath:
-name=xiaohui\, parent=, children=null
+name=xiaohui:\a\b\, parent=xiaohui:\a\, children=[]
 
 PathMap:
-name=xiaohui\, parent=, children=null
+name=xiaohui:\a\b\, parent=xiaohui:\a\, children=[]
+name=xiaohui:\a\, parent=xiaohui:\, children=[xiaohui:\a\b\]
+name=xiaohui:\a\, parent=xiaohui:\, children=[xiaohui:\a\b\]
 
 Folders:
 FPN:
-xiaohui\
+xiaohui:\a\b\
 FileMap:
-id=0, name=xiaohui\b.java, content=pulic, path=xiaohui\, length=5, type=.java, isOpen=true
+FPN:
+xiaohui:\
+FileMap:
 End;
