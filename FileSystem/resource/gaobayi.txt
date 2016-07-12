@@ -1,0 +1,18 @@
+PresentPath:
+name=gaobayi:\a\, parent=gaobayi:\, children=[]
+
+PathMap:
+name=gaobayi:\a\, parent=gaobayi:\, children=[]
+name=gaobayi:\, parent=, children=[gaobayi:\a\]
+
+Folders:
+
+FPN:
+gaobayi:\a\
+FileMap:
+id=0, name=gaobayi:\a\a.txt, content=, path=gaobayi:\a\, length=0, type=.txt, isOpen=false
+
+FPN:
+gaobayi:\
+FileMap:
+End;

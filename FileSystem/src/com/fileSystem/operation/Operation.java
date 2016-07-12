@@ -208,19 +208,20 @@ public class Operation {
 	 */
 	public void dir(String newPath) {
 		ArrayList<String> children = new ArrayList<String>();
-		//*列出当前目录下的子目录
+		//列出绝对路径下的子目录
 		if (newPath.indexOf(":")>0){
 			 children = pathMap.get(newPath).getChildren();
 		}
-		else //*列出绝对路径下的子目录
+		else //列出当前路径下的子目录
 		{
-			 children = pathMap.get(presentPath.getName()).getChildren();
+			 children = presentPath.getChildren();
 		}
-		if(children.size() == 1){
-			 System.out.println("null");
-		}
-		for(int i = 1;i<children.size();i++){
-	            System.out.println(i+"  "+children.get(i));            
+		
+		for (String child : children) {
+			child = child.substring(0, child.length()-1);
+			String[] splits = child.split("\\\\");
+			System.out.print(splits[splits.length-1] + "    ");
+			System.out.println();
 		}
 	}
 	
