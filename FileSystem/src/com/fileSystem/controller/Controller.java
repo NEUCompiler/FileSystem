@@ -60,7 +60,7 @@ public class Controller {
 	 * 显示界面。
 	 */
 	public void showWindow() {
-		System.out.print(operation.getPresentPath().getName() + ">");
+		System.out.print("\n" + operation.getPresentPath().getName() + ">");
 	}
 
 	/**
@@ -82,56 +82,57 @@ public class Controller {
 			}
 
 			switch (order) {
-			case "create":
-				operation.create(file);
-				break;
-			case "open":
-				file = operation.open(file);
-				break;
-			case "read":
-				operation.read(file);
-				break;
-			case "write":
-				operation.write(file);
-				break;
-			case "close":
-				operation.close(file);
-				break;
-			case "delete":
-				operation.delete(file);
-				break;
-			case "mkdir":
-				operation.mkdir(lists.get(1));
-				break;
-			case "chdir":
-				operation.chdir(lists.get(1));
-				break;
-			case "dir":
-				operation.dir(lists.get(1));
-				break;
-			case "logout":
-				logout();
-				break;
-			case "format":
-				operation.format();
-				break;
-			case "login":
-				login();
-				break;
-			case "0":
-				break;
-			default: {
-
-				System.out.println("Your demand is wrong, please input again:");
-				if (islogin) {
-					showWindow();
-				} else {
-					System.out.print("root:>");
+				case "create":
+					operation.create(file);
+					break;
+				case "open":
+					file = operation.open(file);
+					break;
+				case "read":
+					operation.read(file);
+					break;
+				case "write":
+					operation.write(file);
+					break;
+				case "close":
+					operation.close(file);
+					break;
+				case "delete":
+					operation.delete(file);
+					break;
+				case "mkdir":
+					operation.mkdir(lists.get(1));
+					break;
+				case "chdir":
+					operation.chdir(lists.get(1));
+					break;
+				case "dir":
+					operation.dir(lists.get(1));
+					break;
+				case "logout":
+					logout();
+					break;
+				case "format":
+					operation.format();
+					break;
+				case "login":
+					login();
+					break;
+				case "0":
+					break;
+				default: {
+	
+					System.out.println("Your demand is wrong, please input again:");
+					if (islogin) {
+						showWindow();
+					} else {
+						System.out.print("root:>");
+					}
+	
+					continue;
 				}
-
-				continue;
 			}
-			}
+			showWindow();	
 		}
 	}
 

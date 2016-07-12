@@ -14,34 +14,44 @@ FPN:
 liuxinwei:\xiao\
 FileMap:
 id=0, name=liuxinwei:\Java\java.txt, content=, path=liuxinwei:\Java\, length=0, type=.txt, isOpen=false
-id=12, name=liuxinwei:\xiao\xiao.txt, content=djskfjkdjkfj, path=liuxinwei:\xiao\, length=0, type=.txt, isOpen=false
+id=0, name=liuxinwei:\xiao\xiao.txt, content=djskfjkdjkfj, path=liuxinwei:\xiao\, length=0, type=.txt, isOpen=false
+id=0, name=liuxinwei:\Java\b.txt, content=, path=liuxinwei:\Java\, length=0, type=.txt, isOpen=false
+id=0, name=liuxinwei:\Java\a.txt, content=, path=liuxinwei:\Java\, length=0, type=.txt, isOpen=false
 id=0, name=liuxinwei:\Java\child\child.txt, content=djkfjdkjf, path=liuxinwei:\Java\child\, length=0, type=.txt, isOpen=false
 
 FPN:
 liuxinwei:\Java\child\
 FileMap:
 id=0, name=liuxinwei:\Java\java.txt, content=, path=liuxinwei:\Java\, length=0, type=.txt, isOpen=false
-id=12, name=liuxinwei:\xiao\xiao.txt, content=djskfjkdjkfj, path=liuxinwei:\xiao\, length=0, type=.txt, isOpen=false
+id=0, name=liuxinwei:\xiao\xiao.txt, content=djskfjkdjkfj, path=liuxinwei:\xiao\, length=0, type=.txt, isOpen=false
+id=0, name=liuxinwei:\Java\b.txt, content=, path=liuxinwei:\Java\, length=0, type=.txt, isOpen=false
+id=0, name=liuxinwei:\Java\a.txt, content=, path=liuxinwei:\Java\, length=0, type=.txt, isOpen=false
 id=0, name=liuxinwei:\Java\child\child.txt, content=djkfjdkjf, path=liuxinwei:\Java\child\, length=0, type=.txt, isOpen=false
 
 FPN:
 liuxinwei:\
 FileMap:
 id=0, name=liuxinwei:\Java\java.txt, content=, path=liuxinwei:\Java\, length=0, type=.txt, isOpen=false
-id=12, name=liuxinwei:\xiao\xiao.txt, content=djskfjkdjkfj, path=liuxinwei:\xiao\, length=0, type=.txt, isOpen=false
+id=0, name=liuxinwei:\xiao\xiao.txt, content=djskfjkdjkfj, path=liuxinwei:\xiao\, length=0, type=.txt, isOpen=false
+id=0, name=liuxinwei:\Java\b.txt, content=, path=liuxinwei:\Java\, length=0, type=.txt, isOpen=false
+id=0, name=liuxinwei:\Java\a.txt, content=, path=liuxinwei:\Java\, length=0, type=.txt, isOpen=false
 id=0, name=liuxinwei:\Java\child\child.txt, content=djkfjdkjf, path=liuxinwei:\Java\child\, length=0, type=.txt, isOpen=false
 
 FPN:
 liuxinwei:\Java\
 FileMap:
 id=0, name=liuxinwei:\Java\java.txt, content=, path=liuxinwei:\Java\, length=0, type=.txt, isOpen=false
-id=12, name=liuxinwei:\xiao\xiao.txt, content=djskfjkdjkfj, path=liuxinwei:\xiao\, length=0, type=.txt, isOpen=false
+id=0, name=liuxinwei:\xiao\xiao.txt, content=djskfjkdjkfj, path=liuxinwei:\xiao\, length=0, type=.txt, isOpen=false
+id=0, name=liuxinwei:\Java\b.txt, content=, path=liuxinwei:\Java\, length=0, type=.txt, isOpen=false
+id=0, name=liuxinwei:\Java\a.txt, content=, path=liuxinwei:\Java\, length=0, type=.txt, isOpen=false
 id=0, name=liuxinwei:\Java\child\child.txt, content=djkfjdkjf, path=liuxinwei:\Java\child\, length=0, type=.txt, isOpen=false
 
 FPN:
 liuxinwei:\C\
 FileMap:
 id=0, name=liuxinwei:\Java\java.txt, content=, path=liuxinwei:\Java\, length=0, type=.txt, isOpen=false
-id=12, name=liuxinwei:\xiao\xiao.txt, content=djskfjkdjkfj, path=liuxinwei:\xiao\, length=0, type=.txt, isOpen=false
+id=0, name=liuxinwei:\xiao\xiao.txt, content=djskfjkdjkfj, path=liuxinwei:\xiao\, length=0, type=.txt, isOpen=false
+id=0, name=liuxinwei:\Java\b.txt, content=, path=liuxinwei:\Java\, length=0, type=.txt, isOpen=false
+id=0, name=liuxinwei:\Java\a.txt, content=, path=liuxinwei:\Java\, length=0, type=.txt, isOpen=false
 id=0, name=liuxinwei:\Java\child\child.txt, content=djkfjdkjf, path=liuxinwei:\Java\child\, length=0, type=.txt, isOpen=false
 End;
