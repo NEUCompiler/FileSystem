@@ -156,42 +156,58 @@ public class Operation {
 	}
 	
 	/**
-	 * 创建目录。
+	 * 创建目录,需提供创建目录名(newPath),在当前目录下创建.
 	 */
 	public void mkdir(String newPath) {
-		
-		//创建空Path。
-		Path path = new Path();
-		
+	
 		//对空Path，进行name, patrent操作。
-		String name = presentPath.getName() + "/" + newPath;
-		path.setName(name);
-		path.setParent(presentPath.getName());
-		
+		String name = presentPath.getName() + "\\" + newPath;
 		//查找Pathmap ,有的话就退出，没有就写入。
 		if (pathMap.containsKey(name)) {
 			System.out.println("已经存在");
 			return;
 		} else {
+			//创建空Path.
+			Path path = new Path();
+			path.setName(name);
+			path.setParent(presentPath.getName());
 			pathMap.put(name, path);
+			//修改当前path的chird节点。
+			ArrayList<String> children = pathMap.get(presentPath.getName()).getChildren();
+			children.add(name);
+			
+			pathMap.get(presentPath.getName()).setChildren(children);
 		}
-		
-		//修改当前path的chird节点。
-		ArrayList<String> children = pathMap.get(presentPath.getName()).getChildren();
-		children.add(name);
-		pathMap.get(presentPath.getName()).setChildren(children);
 	}
 	
 	/**
-	 * 改变目录。
+	 * 改变目录.需提供目标目录
+	 * (替换当前目录presentPath 用目标目录newPath 如：cd C:/A/Java)
 	 */
-	public void chdir() {
+	public void chdir(String newPath) {
 		//只有一种操作： 对presentPath 进行替换， 从pathmap拿出替换。
-		
-		//唯一的目的就是获得绝对路径，查表。
-		//相对当前目录。
-		
-		//绝对路径 如：cd C:/A/Java
+		//查找Pathmap ,有的话就退出，没有就写入.(绝对路径.)绝对路径 如：cd C:/A/Java
+		if (newPath.indexOf(":")>0){
+			//绝对路径查询
+			if (pathMap.containsKey(newPath)) {
+				presentPath.setName(newPath);
+				presentPath.setParent(pathMap.get(newPath).getParent());
+				presentPath.setChildren(pathMap.get(newPath).getChildren());
+			} else {
+				System.out.println("目录不存在");
+			}
+		}
+		else{
+			//相对路径查询
+			String name = presentPath.getParent() + "\\" + newPath;
+			if (pathMap.containsKey(name)){
+				presentPath.setParent(presentPath.getName());
+				presentPath.setName(name);
+				presentPath.setChildren(pathMap.get(name).getChildren());
+			} else {
+				System.out.println("目录不存在");
+			}
+		}
 	}
 	
 	/**
