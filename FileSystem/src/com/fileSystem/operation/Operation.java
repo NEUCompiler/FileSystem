@@ -94,10 +94,19 @@ public class Operation {
 	 * 文件读取。
 	 */
 	public void read(UFile file) {
-		if (file.isOpen()) {
-			System.out.println(file.getContent());
+		String name = file.getName();
+		String path = file.getPath();
+		HashMap<String, UFile> files = folders.get(path);
+		
+		file = files.get(name);
+		if (file == null) {
+			System.out.println("文件不存在");
 		} else {
-			System.out.println("文件未打开");
+			if (file.isOpen()) {
+				System.out.println(file.getContent());
+			} else {
+				System.out.println("文件未打开");
+			}
 		}
 	}
 	
@@ -224,8 +233,6 @@ public class Operation {
 			System.out.println();
 		}
 	}
-	
-	
 	
 	/**
 	 * 格式化。
