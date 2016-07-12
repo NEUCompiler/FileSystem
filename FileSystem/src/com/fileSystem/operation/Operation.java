@@ -162,7 +162,7 @@ public class Operation {
 		}
 	}
 	
-	public void mkdir(String newPath) {
+public void mkdir(String newPath) {
 		
 		//对空Path，进行name, patrent操作。
 		String name = presentPath.getName() + newPath + "\\";
@@ -190,6 +190,7 @@ public class Operation {
 	 */
 	public void chdir(String newPath) {
 		newPath = newPath + "\\";
+		String name ;
 		//只有一种操作： 对presentPath 进行替换， 从pathmap拿出替换。
 		//查找Pathmap ,有的话就退出，没有就写入.(绝对路径.)绝对路径 如：cd C:/A/Java
 		if (newPath.indexOf(":")>0){
@@ -200,9 +201,13 @@ public class Operation {
 				System.out.println("目录不存在");
 			}
 		}
-		else{
-			//相对路径查询
-			String name = presentPath.getName() + newPath;
+		//回退上级目录
+		else if (newPath.indexOf("...")<0 && newPath.indexOf("..")>=0){
+				name =presentPath.getParent();
+				presentPath =pathMap.get(name);
+			}
+		else{//相对路径查询
+		  name = presentPath.getName() + newPath;
 			if (pathMap.containsKey(name)){
 				presentPath = pathMap.get(name);
 			} else {
@@ -225,7 +230,9 @@ public class Operation {
 		{
 			 children = presentPath.getChildren();
 		}
-		
+		if(children.size() == 0){
+			 System.out.println("null");
+		}
 		for (String child : children) {
 			child = child.substring(0, child.length()-1);
 			String[] splits = child.split("\\\\");
