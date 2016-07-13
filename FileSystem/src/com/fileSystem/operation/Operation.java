@@ -241,13 +241,13 @@ public class Operation {
 	
 	/**
 	 * 改变目录.需提供目标目录
-	 * (替换当前目录presentPath 用目标目录newPath 如：cd C:/A/Java)
+	 * (替换当前目录presentPath 用目标目录newPath)
 	 */
 	public void chdir(String newPath) {
 		newPath = newPath + "\\";
 		String name ;
 		//只有一种操作： 对presentPath 进行替换， 从pathmap拿出替换。
-		//查找Pathmap ,(绝对路径.)绝对路径 如：cd C:/A/Java
+		//查找Pathmap 
 		if (newPath.indexOf(":")>0){
 			//绝对路径查询
 			if (pathMap.containsKey(newPath)) {
@@ -280,10 +280,12 @@ public class Operation {
 		//列出绝对路径下的子目录
 		if (newPath.indexOf(":")>0){
 			 children = pathMap.get(newPath).getChildren();
+			 children.addAll(folders.get(newPath).keySet());
 		}
 		else //列出当前路径下的子目录
 		{
 			 children = presentPath.getChildren();
+			 children.addAll(folders.get(presentPath.getName()).keySet());
 		}
 		if(children.size() == 0){
 			 System.out.println("null");
