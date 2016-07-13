@@ -164,9 +164,10 @@ public class Operation {
 		if (file == null) {
 			System.out.println("文件不存在");
 			file = null;
+			return;
 		} 
 		else if(file.isSave()){
-			
+			System.out.println("文件已保存");
 		}
 		else {
 			System.out.println(file.getContent());
@@ -187,7 +188,6 @@ public class Operation {
 				System.out.println("文件已保存");
 			}
 			}
-		    System.out.println(file.getContent());
 			file.setOpen(false);
 			file.setSave(true);
 			System.out.println("文件已经关闭");
