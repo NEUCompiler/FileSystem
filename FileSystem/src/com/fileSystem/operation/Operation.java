@@ -301,7 +301,12 @@ public class Operation {
 	 * 格式化。
 	 */
 	public void format() {
-		
+		presentPath = new Path(username + ":\\");
+		pathMap = new HashMap<String, Path>();
+		folders = new HashMap<String, HashMap<String, UFile>>();
+		fileMap = new HashMap<String, UFile>();
+		pathMap.put(presentPath.getName(), presentPath);
+		folders.put(presentPath.getName(), new HashMap<String, UFile>());
 	}
 	
 	public int getId() {
