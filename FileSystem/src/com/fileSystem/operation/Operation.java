@@ -137,10 +137,10 @@ public class Operation {
 	 * 文件打开。
 	 */
 	public UFile open(UFile file) {
-		String name = file.getName();
-		String path = file.getPath();
-		HashMap<String, UFile> files = folders.get(path);
-		file = files.get(name);	
+		String name = file.getName(); //得到当前所操作文件的名字
+		String path = file.getPath();  //得到当前所操作文件的路径
+		HashMap<String, UFile> files = folders.get(path);  //
+		file = files.get(name);	 
 		if (file == null) {
 			System.out.println("文件不存在");
 			file = null;
