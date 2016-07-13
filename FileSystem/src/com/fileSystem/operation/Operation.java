@@ -161,22 +161,23 @@ public class Operation {
 			System.out.println("文件已经关闭");
 		}
 	}
-	
-public void mkdir(String newPath) {
-		
-		//对空Path，进行name, patrent操作。
+	 /**创建目录 ，需要目标目录名
+	  *
+	  */
+     public void mkdir(String newPath) {
+		//对newPath进行系统名补充操作成为name
 		String name = presentPath.getName() + newPath + "\\";
 		//查找Pathmap ,有的话就退出，没有就写入。
 		if (pathMap.containsKey(name)) {
 			System.out.println("已经存在");
 			return;
 		} else {
-			//创建空Path.
+			//创建空Path.修改目录表pathMap的内容
 			Path path = new Path();
 			path.setName(name);
 			path.setParent(presentPath.getName());
 			pathMap.put(name, path);
-			//修改当前path的chird节点。
+			//修改当前目录presentPath的chird节点.
 			ArrayList<String> children = pathMap.get(presentPath.getName()).getChildren();
 			children.add(name);
 			folders.put(name, new HashMap<String, UFile>());
@@ -192,7 +193,7 @@ public void mkdir(String newPath) {
 		newPath = newPath + "\\";
 		String name ;
 		//只有一种操作： 对presentPath 进行替换， 从pathmap拿出替换。
-		//查找Pathmap ,有的话就退出，没有就写入.(绝对路径.)绝对路径 如：cd C:/A/Java
+		//查找Pathmap ,(绝对路径.)绝对路径 如：cd C:/A/Java
 		if (newPath.indexOf(":")>0){
 			//绝对路径查询
 			if (pathMap.containsKey(newPath)) {
@@ -240,6 +241,7 @@ public void mkdir(String newPath) {
 			System.out.println();
 		}
 	}
+	
 	
 	/**
 	 * 格式化。
