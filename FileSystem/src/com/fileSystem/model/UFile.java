@@ -8,6 +8,8 @@ public class UFile {
 	private int length;
 	private String type;
 	private boolean isOpen;
+	private boolean isSave;
+	private String buffer = "";
 	
 	/**
 	 * default construct.
@@ -63,6 +65,15 @@ public class UFile {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
+	public String getBuffer() {
+		return buffer;
+	}
+	
+	public void setBuffer(String buffer) {
+		this.buffer=buffer;
+	}
+	
 	/**
 	 * @return the path
 	 */
@@ -114,6 +125,21 @@ public class UFile {
 		this.isOpen = isOpen;
 	}
 
+	/**
+	 * @return the isSave
+	 */
+	public boolean isSave() {
+		return isSave;
+	}
+
+	/**
+	 * @param isSave the isSave to set
+	 */
+	public void setSave(boolean isSave) {
+		this.isSave = isSave;
+	}
+	
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

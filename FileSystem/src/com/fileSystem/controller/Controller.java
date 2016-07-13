@@ -97,6 +97,9 @@ public class Controller {
 				case "close":
 					operation.close(file);
 					break;
+				case "save":
+					operation.save(file);
+					break;
 				case "delete":
 					operation.delete(file);
 					break;

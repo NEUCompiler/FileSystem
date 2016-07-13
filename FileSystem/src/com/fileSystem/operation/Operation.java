@@ -97,7 +97,6 @@ public class Operation {
 		String name = file.getName();
 		String path = file.getPath();
 		HashMap<String, UFile> files = folders.get(path);
-		
 		file = files.get(name);
 		if (file == null) {
 			System.out.println("文件不存在");
@@ -114,16 +113,25 @@ public class Operation {
 	 * 文件写入。
 	 */
 	public void write(UFile file) {
-		if (file.isOpen()) {
-			System.out.print("please input data that your want to write: ");
-			String content = file.getContent();
-			content = content + in.nextLine();
-			file.setContent(content);
-			file.setLength(content.length());
-		} else {
-			System.out.println("文件未打开");
-		}
-	}
+		String name = file.getName();
+		String path = file.getPath();
+		HashMap<String, UFile> files = folders.get(path);
+		file = files.get(name);
+			if (file == null) {
+				System.out.println("文件不存在");
+			}else {
+				if (file.isOpen()) {
+					file.setSave(false);
+					System.out.print("please input data that your want to write: ");
+					String content = file.getContent();
+					String buffer=file.getContent();
+					buffer = content + in.nextLine();
+					file.setContent(content);
+					file.setBuffer(buffer);
+				}
+		     else {
+			System.out.println("文件未打开");}
+	}}
 	
 	/**
 	 * 文件打开。
@@ -132,8 +140,8 @@ public class Operation {
 		String name = file.getName();
 		String path = file.getPath();
 		HashMap<String, UFile> files = folders.get(path);
-			
-		if (files.get(name) == null) {
+		file = files.get(name);	
+		if (file == null) {
 			System.out.println("文件不存在");
 			file = null;
 		} else {
@@ -152,15 +160,61 @@ public class Operation {
 		String name = file.getName();
 		String path = file.getPath();
 		HashMap<String, UFile> files = folders.get(path);
+		file = files.get(name);	
+		if (file == null) {
+			System.out.println("文件不存在");
+			file = null;
+		} 
+		else if(file.isSave()){
 			
-		if (files.get(name) == null) {
+		}
+		else {
+			System.out.println(file.getContent());
+			System.out.println(file.getBuffer());
+			System.out.println("SAVE FILE？");
+			String choose=in.next();
+			if(choose.equals("y"))
+			{
+				String buff=file.getBuffer();
+				file.setContent(buff);
+				System.out.println("文件已保存");
+			}
+			else if(choose.equals("n")){
+				String content=file.getContent();
+				file.setContent(content);
+				file.setBuffer(content);
+			}else{
+				System.out.println("文件已保存");
+			}
+			}
+		    System.out.println(file.getContent());
+			file.setOpen(false);
+			file.setSave(true);
+			System.out.println("文件已经关闭");
+		}
+	
+	
+	/**
+	 * 文件保存。
+	 */
+	public void save(UFile file) 
+	{
+		String name = file.getName();
+		String path = file.getPath();
+		HashMap<String, UFile> files = folders.get(path);
+		file = files.get(name);	
+		if (file == null) {
 			System.out.println("文件不存在");
 			file = null;
 		} else {
-			files.get(name).setOpen(false);
-			System.out.println("文件已经关闭");
-		}
+			file.setContent(file.getBuffer());
+			file.setSave(true);
+			System.out.println("文件已经保存");
+		}	
 	}
+	
+	
+	
 	 /**创建目录 ，需要目标目录名
 	  *
 	  */
