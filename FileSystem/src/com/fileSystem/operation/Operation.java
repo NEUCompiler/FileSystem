@@ -121,14 +121,12 @@ public class Operation {
 			if (file == null) {
 				System.out.println("文件不存在");
 			}else {
-				if (file.isOpen()) {
-					file.setSave(false);
+				if (file.isOpen()) {   //文件打开方可操作
+					file.setSave(false);    //设置当前保存转态为未保存
 					System.out.print("please input data that your want to write: ");
-					String content = file.getContent();
-					String buffer = in.next();
-					buffer = content + buffer;
-					file.setContent(content);
-					file.setBuffer(buffer);
+					String input = in.next();
+					String buffer = file.getBuffer() + input;
+					file.setBuffer(buffer);  //输入写入缓冲区内容
 				}
 		     else {
 			System.out.println("文件未打开");}
@@ -140,14 +138,16 @@ public class Operation {
 	public UFile open(UFile file) {
 		String name = file.getName(); //得到当前所操作文件的名字
 		String path = file.getPath();  //得到当前所操作文件的路径
-		HashMap<String, UFile> files = folders.get(path);  //
-		file = files.get(name);	 
+		HashMap<String, UFile> files = folders.get(path);  //从路径表中找到该路径对应的文件表
+		file = files.get(name);	 //从该文件表中找到该文件名对应的文件
 		if (file == null) {
 			System.out.println("文件不存在");
 			file = null;
 		} else {
 			file = files.get(name);
 			file.setOpen(true);
+			String content = file.getContent();
+			file.setBuffer(content);  //将缓冲区内容设为与文本内容相同
 			System.out.println("文件已经打开");
 		}
 	
@@ -167,26 +167,25 @@ public class Operation {
 			file = null;
 			return;
 		} 
-		else if(file.isSave()){
+		else if(file.isSave()){  //文件已经保存了则不用再保存
 			System.out.println("文件已保存");
 		}
-		else {
-			System.out.println(file.getContent());
-			System.out.println(file.getBuffer());
-			System.out.println("SAVE FILE？");
+		else {  //文件未保存
+			System.out.println("保存文件？（y保存，n不保存,其他键取消）");
 			String choose=in.next();
-			if(choose.equals("y"))
+			if(choose.equals("y"))   //保存文件
 			{
-				String buff=file.getBuffer();
+				String buff=file.getBuffer(); //将缓冲区内容写入文本内容
 				file.setContent(buff);
 				System.out.println("文件已保存");
 			}
-			else if(choose.equals("n")){
+			else if(choose.equals("n")){   //不保存
 				String content=file.getContent();
-				file.setContent(content);
+				file.setContent(content);  //缓冲区内容变为文本内容
 				file.setBuffer(content);
 			}else{
-				System.out.println("文件已保存");
+				System.out.println("已取消操作");
+				return;
 			}
 			}
 			file.setOpen(false);
@@ -208,8 +207,8 @@ public class Operation {
 			System.out.println("文件不存在");
 			file = null;
 		} else {
-			file.setContent(file.getBuffer());
-			file.setSave(true);
+			file.setContent(file.getBuffer());  //将缓冲区内容写入文本内容
+			file.setSave(true);   //文件状态设置为已保存
 			System.out.println("文件已经保存");
 		}	
 	}
