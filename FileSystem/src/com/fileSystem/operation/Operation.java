@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import com.fileSystem.model.Path;
 import com.fileSystem.model.UFile;
@@ -277,16 +278,27 @@ public class Operation {
 	 * 需提供目标目录。
 	 */
 	public void dir(String newPath) {
-		ArrayList<String> children = new ArrayList<String>();
+		ArrayList<String> children = new ArrayList<String>();//目录列出
+		Set<String> childrens;//文件列出
 		//列出绝对路径下的子目录
 		if (newPath.indexOf(":")>0){
 			 children = pathMap.get(newPath).getChildren();
-			 //children.addAll(folders.get(newPath).keySet());
+			 childrens = folders.get(newPath).keySet();
+			 for (String string : childrens) {
+				  String[] splits = string.split("\\\\");
+				  System.out.print(splits[splits.length-1] + "    ");
+				  System.out.println();
+			}
 		}
 		else //列出当前路径下的子目录
 		{
 			 children = presentPath.getChildren();
-			 //children.addAll(folders.get(presentPath.getName()).keySet());
+			 childrens = folders.get(presentPath.getName()).keySet();
+			 for (String string : childrens) {
+				 String[] splits = string.split("\\\\");
+					System.out.print(splits[splits.length-1] + "    ");
+					System.out.println();
+			}
 		}
 		for (String child : children) {
 			if (child.length() == 0) {
