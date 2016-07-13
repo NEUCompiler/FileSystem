@@ -236,6 +236,7 @@ public class Operation {
 			children.add(name);
 			folders.put(name, new HashMap<String, UFile>());
 			pathMap.get(presentPath.getName()).setChildren(children);
+			presentPath = pathMap.get(presentPath.getName());
 		}
 	}
 	
@@ -280,17 +281,17 @@ public class Operation {
 		//列出绝对路径下的子目录
 		if (newPath.indexOf(":")>0){
 			 children = pathMap.get(newPath).getChildren();
-			 children.addAll(folders.get(newPath).keySet());
+			 //children.addAll(folders.get(newPath).keySet());
 		}
 		else //列出当前路径下的子目录
 		{
 			 children = presentPath.getChildren();
-			 children.addAll(folders.get(presentPath.getName()).keySet());
-		}
-		if(children.size() == 0){
-			 System.out.println("null");
+			 //children.addAll(folders.get(presentPath.getName()).keySet());
 		}
 		for (String child : children) {
+			if (child.length() == 0) {
+				continue;
+			}
 			child = child.substring(0, child.length()-1);
 			String[] splits = child.split("\\\\");
 			System.out.print(splits[splits.length-1] + "    ");
