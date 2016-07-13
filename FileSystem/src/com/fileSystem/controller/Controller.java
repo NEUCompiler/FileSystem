@@ -117,6 +117,7 @@ public class Controller {
 					break;
 				case "format":
 					operation.format();
+					exportUserdata();
 					break;
 				case "login":
 					login();
@@ -188,7 +189,7 @@ public class Controller {
 			if (password.equals(users.get(username).getPassword())) {
 
 				if (operation.isLogin() == true) {
-					ExportUserdata();
+					exportUserdata();
 				}
 
 				System.out.println("Login success!");
@@ -217,13 +218,13 @@ public class Controller {
 	 * 退出。
 	 */
 	public void logout() {
-		ExportUserdata();
+		exportUserdata();
 	}
 
 	/**
 	 * 保存用户数据。
 	 */
-	public void ExportUserdata() {
+	public void exportUserdata() {
 		Map<String, Path> pathMap = (HashMap<String, Path>) operation
 				.getPathMap();
 		Map<String, HashMap<String, UFile>> folders = (HashMap<String, HashMap<String, UFile>>) operation
