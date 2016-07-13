@@ -124,8 +124,8 @@ public class Operation {
 					file.setSave(false);
 					System.out.print("please input data that your want to write: ");
 					String content = file.getContent();
-					String buffer=file.getContent();
-					buffer = content + in.nextLine();
+					String buffer = in.next();
+					buffer = content + buffer;
 					file.setContent(content);
 					file.setBuffer(buffer);
 				}
