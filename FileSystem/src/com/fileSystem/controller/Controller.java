@@ -222,6 +222,7 @@ public class Controller {
 	 */
 	public void logout() {
 		exportUserdata();
+		login();
 	}
 
 	/**
