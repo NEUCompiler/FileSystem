@@ -1,13 +1,19 @@
 PresentPath:
-name=liuxinwei:\, parent=, children=[]
+name=liuxinwei:\b\, parent=liuxinwei:\, children=[]
 
 PathMap:
-name=liuxinwei:\, parent=, children=[]
+name=liuxinwei:\, parent=, children=[, liuxinwei:\b\]
+name=liuxinwei:\b\, parent=liuxinwei:\, children=[]
 
 Folders:
 
 FPN:
 liuxinwei:\
 FileMap:
-id=0, name=liuxinwei:\a.txt, content=, path=liuxinwei:\, length=0, type=.txt, isOpen=false
+id=0, name=liuxinwei:\a.txt, content=, path=liuxinwei:\, length=0, type=.txt, isOpen=true
+
+FPN:
+liuxinwei:\b\
+FileMap:
+id=0, name=liuxinwei:\b\a.txt, content=, path=liuxinwei:\b\, length=0, type=.txt, isOpen=true
 End;
