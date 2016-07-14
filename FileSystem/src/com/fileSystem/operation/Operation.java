@@ -315,23 +315,23 @@ public class Operation {
 	 /**创建目录 ，需要目标目录名
 	  *
 	  */
- public void mkdir(String newPath) {
+     public void mkdir(String newPath) {
 		//对newPath进行系统名补充操作成为name
 		String name = presentPath.getName() + newPath + "\\";
 		//查找Pathmap ,有的话就退出，没有就写入。
 		if (pathMap.containsKey(name)) {
 			System.out.println("已经存在");
 			return;
-		} else {
+		} 
+		else {
 			//创建空Path.修改目录表pathMap的内容
 			Path path = new Path();
 			path.setName(name);
 			path.setParent(presentPath.getName());
 			pathMap.put(name, path);
+			
 			//修改当前目录presentPath的chird节点.
-			ArrayList<String> children = pathMap.get(presentPath.getName
-
-()).getChildren();
+			ArrayList<String> children = pathMap.get(presentPath.getName()).getChildren();
 			children.add(name);
 			folders.put(name, new HashMap<String, UFile>());
 			pathMap.get(presentPath.getName()).setChildren(children);
@@ -346,7 +346,7 @@ public class Operation {
 	public void chdir(String newPath) {
 		newPath = newPath + "\\";
 		String name ;
-		//只有一种操作： 对presentPath 进行替换， 从pathmap拿出替换。
+		// 对presentPath 进行替换， 从pathmap拿出替换。
 		//查找Pathmap 
 		if (newPath.indexOf(":")>0){
 			//绝对路径查询
@@ -356,7 +356,7 @@ public class Operation {
 				System.out.println("目录不存在");
 			}
 		}
-		//回退上级目录
+		   //回退上级目录
 		else if (newPath.indexOf("...")<0 && newPath.indexOf("..")>=0){
 				name =presentPath.getParent();
 				presentPath =pathMap.get(name);
@@ -417,16 +417,14 @@ public class Operation {
 		Set<String> namess ;//文件表删除参数
 		String name = presentPath.getName();
 		
-	    //相对目录即当前目录删除
+	    //当前目录删除
 		presentPath =pathMap.get(presentPath.getParent());
-		
-		ArrayList<String> children = pathMap.get(presentPath.getName
-
-()).getChildren();
+		//更改父目录里面的子目录内容
+		ArrayList<String> children = pathMap.get(presentPath.getName()).getChildren();
 		children.remove(name);
-		pathMap.get(presentPath.getName()).setChildren(children);//更改父目录里面的子目录内容
-		
-		names = pathMap.keySet();//删除目录表里面包含当前目录名的目录
+		pathMap.get(presentPath.getName()).setChildren(children);
+		//删除目录表里面包含当前目录名的目录
+		names = pathMap.keySet();
 		
 		ArrayList<String> lists = new ArrayList<>();
 		
@@ -439,8 +437,8 @@ public class Operation {
 				pathMap.keySet().remove(string);
 				}
 		}
-		
-		namess = folders.keySet();//删除文件表里面包含当前目录名的文件
+		//删除文件表里面包含当前目录名的文件
+		namess = folders.keySet();
 		for(String string : lists ){
 			if(string.indexOf(name)>=0){
 				folders.keySet().remove(string);
@@ -454,9 +452,12 @@ public class Operation {
 	 */
 	public void format() {
 		presentPath = new Path(username + ":\\");
+		//清空目录表
 		pathMap = new HashMap<String, Path>();
+		//清空文件表
 		folders = new HashMap<String, HashMap<String, UFile>>();
 		fileMap = new HashMap<String, UFile>();
+		//载入初始目录名和文件名
 		pathMap.put(presentPath.getName(), presentPath);
 		folders.put(presentPath.getName(), new HashMap<String, UFile>());
 	}
