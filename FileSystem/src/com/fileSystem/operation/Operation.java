@@ -305,7 +305,7 @@ public class Operation {
 	 /**创建目录 ，需要目标目录名
 	  *
 	  */
-     public void mkdir(String newPath) {
+ public void mkdir(String newPath) {
 		//对newPath进行系统名补充操作成为name
 		String name = presentPath.getName() + newPath + "\\";
 		//查找Pathmap ,有的话就退出，没有就写入。
@@ -319,7 +319,9 @@ public class Operation {
 			path.setParent(presentPath.getName());
 			pathMap.put(name, path);
 			//修改当前目录presentPath的chird节点.
-			ArrayList<String> children = pathMap.get(presentPath.getName()).getChildren();
+			ArrayList<String> children = pathMap.get(presentPath.getName
+
+()).getChildren();
 			children.add(name);
 			folders.put(name, new HashMap<String, UFile>());
 			pathMap.get(presentPath.getName()).setChildren(children);
@@ -382,7 +384,7 @@ public class Operation {
 			 childrens = folders.get(presentPath.getName()).keySet();
 			 for (String string : childrens) {
 				 String[] splits = string.split("\\\\");
-					System.out.print(splits[splits.length-1] + "    ");
+					System.out.print(splits[splits.length-1] + "   ");
 					System.out.println();
 			}
 		}
@@ -394,6 +396,45 @@ public class Operation {
 			String[] splits = child.split("\\\\");
 			System.out.print(splits[splits.length-1] + "    ");
 			System.out.println();
+		}
+	}
+	
+	/**
+	 * 删除目录
+	 */
+	public void dedir(){
+		Set<String> names ;//目录表删除参数
+		Set<String> namess ;//文件表删除参数
+		String name = presentPath.getName();
+		
+	    //相对目录即当前目录删除
+		presentPath =pathMap.get(presentPath.getParent());
+		
+		ArrayList<String> children = pathMap.get(presentPath.getName
+
+()).getChildren();
+		children.remove(name);
+		pathMap.get(presentPath.getName()).setChildren(children);//更改父目录里面的子目录内容
+		
+		names = pathMap.keySet();//删除目录表里面包含当前目录名的目录
+		
+		ArrayList<String> lists = new ArrayList<>();
+		
+		for (String string : names) {
+			lists.add(string);
+		}
+		
+		for (String string : lists) {
+			if(string.indexOf(name)>=0){
+				pathMap.keySet().remove(string);
+				}
+		}
+		
+		namess = folders.keySet();//删除文件表里面包含当前目录名的文件
+		for(String string : lists ){
+			if(string.indexOf(name)>=0){
+				folders.keySet().remove(string);
+			}
 		}
 	}
 	

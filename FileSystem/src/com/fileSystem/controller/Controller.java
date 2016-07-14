@@ -109,6 +109,9 @@ public class Controller {
 				case "dir":
 					operation.dir(lists.get(1));
 					break;
+				case "dedir":
+					operation.dedir();
+					break;
 				case "logout":
 					logout();
 					break;
