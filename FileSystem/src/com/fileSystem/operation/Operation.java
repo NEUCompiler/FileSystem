@@ -329,10 +329,10 @@ public class Operation {
 		}
 	}
 	
-	 /**创建目录 ，需要目标目录名
+	/**创建目录 ，需要目标目录名
 	  *
 	  */
-     public void mkdir(String newPath) {
+   public void mkdir(String newPath) {
 		//对newPath进行系统名补充操作成为name
 		String name = presentPath.getName() + newPath + "\\";
 		//查找Pathmap ,有的话就退出，没有就写入。
@@ -345,14 +345,14 @@ public class Operation {
 			Path path = new Path();
 			path.setName(name);
 			path.setParent(presentPath.getName());
-			pathMap.put(name, path);
+			pathMap.put(name, path);//往目录表里添加创建的目录
 			
 			//修改当前目录presentPath的chird节点.
 			ArrayList<String> children = pathMap.get(presentPath.getName()).getChildren();
-			children.add(name);
+			children.add(name);//添加子目录
 			folders.put(name, new HashMap<String, UFile>());
-			pathMap.get(presentPath.getName()).setChildren(children);
-			presentPath = pathMap.get(presentPath.getName());
+			pathMap.get(presentPath.getName()).setChildren(children);//往目录表中完善创建的子目录信息
+			presentPath = pathMap.get(presentPath.getName());//完善后的当前目录替换当前目录
 		}
 	}
 	
@@ -364,11 +364,10 @@ public class Operation {
 		newPath = newPath + "\\";
 		String name ;
 		// 对presentPath 进行替换， 从pathmap拿出替换。
-		//查找Pathmap 
 		if (newPath.indexOf(":")>0){
 			//绝对路径查询
 			if (pathMap.containsKey(newPath)) {
-				presentPath = pathMap.get(newPath);
+				presentPath = pathMap.get(newPath);//替换当前目录
 			} else {
 				System.out.println("目录不存在");
 			}
@@ -376,12 +375,12 @@ public class Operation {
 		   //回退上级目录
 		else if (newPath.indexOf("...")<0 && newPath.indexOf("..")>=0){
 				name =presentPath.getParent();
-				presentPath =pathMap.get(name);
+				presentPath =pathMap.get(name);//用父目录替换当前目录
 			}
 		else{//相对路径查询
-		  name = presentPath.getName() + newPath;
+		  name = presentPath.getName() + newPath;//完善要改变的目录名
 			if (pathMap.containsKey(name)){
-				presentPath = pathMap.get(name);
+				presentPath = pathMap.get(name);//替换当前目录
 			} else {
 				System.out.println("目录不存在");
 			}
@@ -397,9 +396,9 @@ public class Operation {
 		Set<String> childrens;//文件列出
 		//列出绝对路径下的子目录
 		if (newPath.indexOf(":")>0){
-			 children = pathMap.get(newPath).getChildren();
-			 childrens = folders.get(newPath).keySet();
-			 for (String string : childrens) {
+			 children = pathMap.get(newPath).getChildren();//目录表下的子目录
+			 childrens = folders.get(newPath).keySet();//文件表下的子目录
+			 for (String string : childrens) {         
 				  String[] splits = string.split("\\\\");
 				  System.out.print(splits[splits.length-1] + "    ");
 				  System.out.println();
@@ -407,8 +406,8 @@ public class Operation {
 		}
 		else //列出当前路径下的子目录
 		{
-			 children = presentPath.getChildren();
-			 childrens = folders.get(presentPath.getName()).keySet();
+			 children = presentPath.getChildren();//目录表下的子目录
+			 childrens = folders.get(presentPath.getName()).keySet();//文件表下的子目录
 			 for (String string : childrens) {
 				 String[] splits = string.split("\\\\");
 					System.out.print(splits[splits.length-1] + "   ");
@@ -434,17 +433,17 @@ public class Operation {
 		Set<String> namess ;//文件表删除参数
 		String name = presentPath.getName();
 		
-	    //当前目录删除
+	    //当前目录删除 变为父目录
 		presentPath =pathMap.get(presentPath.getParent());
+		
 		//更改父目录里面的子目录内容
 		ArrayList<String> children = pathMap.get(presentPath.getName()).getChildren();
-		children.remove(name);
-		pathMap.get(presentPath.getName()).setChildren(children);
+		children.remove(name);//移除父目录里面的当前目录
+		pathMap.get(presentPath.getName()).setChildren(children);//把更改后的子目录写进目录表中
+		
 		//删除目录表里面包含当前目录名的目录
 		names = pathMap.keySet();
-		
 		ArrayList<String> lists = new ArrayList<>();
-		
 		for (String string : names) {
 			lists.add(string);
 		}
