@@ -355,7 +355,7 @@ public class Controller {
 						if (line.indexOf("FPN") == 0) {
 							key = reader.readLine();
 						} else if (line.indexOf("FileMap") == 0) {
-							// fileMap = new HashMap<String, UFile>();
+							 fileMap = new HashMap<String, UFile>();
 							while ((line = reader.readLine()).indexOf("id=") == 0) {
 								UFile uFile = new UFile();
 								uFile.setId(Integer.parseInt(line.substring(3,
