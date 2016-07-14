@@ -86,15 +86,26 @@ public class Operation {
 	 * 文件删除。
 	 */
 	public void delete(UFile file) {
-		String name = file.getName();
-		String path = file.getPath();
-		HashMap<String, UFile> files = folders.get(path);
-		
+		String name = file.getName();//当前操作文件的名字
+		String path = file.getPath();//当前操作文件的路径
+		HashMap<String, UFile> files = folders.get(path);//从路径表中找到该路径对应的文件表
+		//在文件表中找到该文件名对应的文件并判断是否存在
 		if (files.get(name) == null) {
 			System.out.println("文件不存在");
 		} else {
-			files.remove(name);
+			System.out.println("删除文件？（y删除，n不删除,其他键取消）");
+		    String choose=in.next();
+		    if(choose.equals("y")) { 
+			files.remove(name);  //当前文件在文件表中删除
 			System.out.println("文件删除成功");
+			} else if(choose.equals("n")) {
+				System.out.println("文件不删除");
+				
+			}else {
+				System.out.println("删除操作取消");
+				
+			}
+		    
 		}
 	}
 	
