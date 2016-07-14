@@ -129,16 +129,16 @@ public class Controller {
 				default: {
 	
 					System.out.println("Your demand is wrong, please input again:");
-					if (islogin) {
-						showWindow();
-					} else {
-						System.out.print("root:>");
-					}
+					showWindow();
 	
 					continue;
 				}
 			}
-			showWindow();	
+			
+			if (!islogin) {
+				showWindow();
+			}
+			
 		}
 	}
 
@@ -203,16 +203,13 @@ public class Controller {
 				islogin = true;
 			} else {
 				System.out.println("password wrong!");
-				System.out.print("root:>");
+				islogin = false;
+				login();
 			}
 		} else {
 			System.out.println("username is not exist!");
-			if (islogin) {
-				showWindow();
-			} else {
-				System.out.print("root:>");
-			}
-
+			islogin = false;
+			login();
 		}
 	}
 
