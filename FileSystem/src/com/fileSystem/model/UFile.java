@@ -1,13 +1,37 @@
 package com.fileSystem.model;
 
 public class UFile {
+	/**
+	 * 文件id.
+	 */
 	private int id;
+	/**
+	 * 文件名。
+	 */
 	private String name;
+	/**
+	 * 文件内容。
+	 */
 	private String content = "";
+	/**
+	 * 文件路径。
+	 */
 	private String path;
+	/**
+	 * 文件长度。
+	 */
 	private int length;
+	/**
+	 * 文件类型。
+	 */
 	private String type;
+	/**
+	 * 文件是否打开。
+	 */
 	private boolean isOpen;
+	/**
+	 * 文件是否保存。
+	 */
 	private boolean isSave;
 	private String buffer = "";
 	

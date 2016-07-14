@@ -17,7 +17,13 @@ import com.fileSystem.model.UFile;
  */
 public class Operation {
 	
+	/**
+	 * 用户名。
+	 */
 	private String username = "";
+	/**
+	 * 用户密码。
+	 */
 	private String password = "";
 	
 	/**
@@ -403,6 +409,8 @@ public class Operation {
 		pathMap.put(presentPath.getName(), presentPath);
 		folders.put(presentPath.getName(), new HashMap<String, UFile>());
 	}
+	
+	//*******************************get and set*****************************
 	
 	public int getId() {
 		return id;

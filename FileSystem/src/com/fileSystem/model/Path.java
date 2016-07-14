@@ -3,8 +3,17 @@ package com.fileSystem.model;
 import java.util.ArrayList;
 
 public class Path {
+	/**
+	 * 路径名。
+	 */
 	private String name = "";
+	/**
+	 * 父亲目录。
+	 */
 	private String parent = "";
+	/**
+	 * 子目录集合。
+	 */
 	private ArrayList<String> children = new ArrayList<String>(0);
 	
 	public Path() {
@@ -60,7 +69,5 @@ public class Path {
 		return "name=" + name + ", parent=" + parent + ", children="
 				+ children;
 	}
-	
-	
 	
 }
