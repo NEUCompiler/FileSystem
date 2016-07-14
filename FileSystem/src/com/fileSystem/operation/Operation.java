@@ -65,13 +65,13 @@ public class Operation {
 	 * 文件创建。
 	 */
 	public void create(UFile file) {
-		String name = file.getName();
-		String path = file.getPath();
-		file.setType(name.substring(name.indexOf(".")));
-		HashMap<String, UFile> files = folders.get(path);
-			
+		String name = file.getName(); //当前操作文件的名字
+		String path = file.getPath(); //当前操作文件的路径
+		file.setType(name.substring(name.indexOf(".")));//该文件类型
+		HashMap<String, UFile> files = folders.get(path);//从路径表中找到该路径对应的文件表
+			//文件表是否为空          文件表中找到名字对应的文件判断是否存在               文件表是否存在
 		if (files.isEmpty() || (files.get(name) == null) || files == null) {
-			files.put(name, file);
+			files.put(name, file);//在文件表中创建文件
 			System.out.println("文件创建成功");
 			addId();
 		} else {
