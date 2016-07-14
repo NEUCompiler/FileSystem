@@ -9,4 +9,5 @@ Folders:
 FPN:
 liuxinwei:\
 FileMap:
+id=0, name=liuxinwei:\a.txt, content=, path=liuxinwei:\, length=0, type=.txt, isOpen=false
 End;

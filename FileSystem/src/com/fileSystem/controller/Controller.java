@@ -51,11 +51,6 @@ public class Controller {
 	private HashMap<String, Operation> users = new HashMap<>();
 
 	/**
-	 * 是否登录。
-	 */
-	private boolean islogin;
-
-	/**
 	 * 显示界面。
 	 */
 	public void showWindow() {
@@ -124,6 +119,9 @@ public class Controller {
 				case "login":
 					login();
 					break;
+				case "saveSystem":
+					saveSystem();
+					break;
 				case "0":
 					break;
 				default: {
@@ -134,11 +132,7 @@ public class Controller {
 					continue;
 				}
 			}
-			
-			if (!islogin) {
-				showWindow();
-			}
-			
+			showWindow();
 		}
 	}
 
@@ -200,15 +194,12 @@ public class Controller {
 				operation.setLogin(true);
 				importUserData();
 				showWindow();
-				islogin = true;
 			} else {
 				System.out.println("password wrong!");
-				islogin = false;
 				login();
 			}
 		} else {
 			System.out.println("username is not exist!");
-			islogin = false;
 			login();
 		}
 	}
@@ -219,6 +210,13 @@ public class Controller {
 	public void logout() {
 		exportUserdata();
 		login();
+	}
+	
+	/**
+	 * 保存系统。
+	 */
+	public void saveSystem() {
+		exportUserdata();
 	}
 
 	/**
