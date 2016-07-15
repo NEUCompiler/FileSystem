@@ -8,3 +8,6 @@ C:\java> mkdir A
 C:\java> chdir D:\abc
 C:\java> cd..
 C:\java> logout
+C:\java> register
+C:\java> logout
+C:\java> login

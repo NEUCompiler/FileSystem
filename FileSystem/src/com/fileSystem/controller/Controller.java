@@ -238,6 +238,9 @@ public class Controller {
 		exportUserdata();
 	}
 	
+	/**
+	 * 用户注册。
+	 */
 	public void register() {
 		String username;
 		String password;
