@@ -5,10 +5,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+
+import javax.imageio.spi.RegisterableService;
 
 import com.fileSystem.model.Path;
 import com.fileSystem.model.UFile;
@@ -125,6 +128,9 @@ public class Controller {
 				case "saveSystem":
 					saveSystem();
 					break;
+				case "register":
+					register();
+					break;
 				case "0":
 					break;
 				default: {
@@ -212,7 +218,17 @@ public class Controller {
 	 */
 	public void logout() {
 		exportUserdata();
-		login();
+		
+		System.out.print("root:>");
+		String order = in.next();
+		
+		if ("register".equals(order)) {
+			register();
+		} else if ("login".equals(order)){
+			login();
+		} else {
+			System.out.println("Your demand is wrong, please input again:");
+		}
 	}
 	
 	/**
@@ -220,6 +236,41 @@ public class Controller {
 	 */
 	public void saveSystem() {
 		exportUserdata();
+	}
+	
+	public void register() {
+		String username;
+		String password;
+		
+		System.out.println("********************Register****************");
+		System.out.println("username:");
+		username = in.next();
+		System.out.println("password:");
+		password = in.next();
+		System.out.println("please confirm your password:");
+		if (!in.next().equals(password)) {
+			System.out.println("密码确认错误");
+			register();
+		} else {
+			Operation operation = new Operation(username);
+			operation.setPassword(password);
+			users.put(username, operation);
+			
+			try {
+				BufferedWriter writer = new BufferedWriter(new FileWriter(new File(USER_PATH)));
+
+				for (String name : users.keySet()) {
+					writer.write("username:" + name);
+					writer.newLine();
+					writer.write("password:" + users.get(name).getPassword());
+					writer.newLine();
+				}
+				
+				writer.close();
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
 	}
 
 	/**
