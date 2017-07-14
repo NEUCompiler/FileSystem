@@ -276,7 +276,7 @@ public class Operation {
 				{
 					if(name.equals(name1))
 					{
-					System.out.println("该路径中已有该命名文件");
+					System.out.println("本路径中已有该命名文件");
 					name1=name1+"(副本)";
 					UFile file1=new UFile(getId(),name1,path1);
 					files1.put(name1, file1);
@@ -311,7 +311,6 @@ public class Operation {
 			}
 		}
 	}
-	
 	
 	 /**创建目录 ，需要目标目录名
 	  *
