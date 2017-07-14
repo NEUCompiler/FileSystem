@@ -75,6 +75,7 @@ public class Operation {
 //		System.out.println(folders);
 	}
 	
+	
 	/**
 	 * 文件删除。
 	 */
@@ -91,6 +92,8 @@ public class Operation {
 		}
 	}
 	
+	
+	
 	/**
 	 * 文件读取。
 	 */
@@ -103,12 +106,20 @@ public class Operation {
 			System.out.println("文件不存在");
 		} else {
 			if (file.isOpen()) {
-				System.out.println(file.getContent());
+				System.out.println("文件名："+file.getName());
+				System.out.println("路径："+file.getPath());
+				System.out.println("文件内容："+file.getContent());
+				System.out.println("文件类型："+file.getType());
+				String content=file.getContent();
+				int len=content.length();
+				file.setLength(len);
+				System.out.println("文件长度："+file.getLength());
 			} else {
 				System.out.println("文件未打开");
 			}
 		}
 	}
+	
 	
 	/**
 	 * 文件写入。
@@ -130,7 +141,9 @@ public class Operation {
 				}
 		     else {
 			System.out.println("文件未打开");}
-	}}
+				}
+			}
+	
 	
 	/**
 	 * 文件打开。
@@ -146,6 +159,7 @@ public class Operation {
 		} else {
 			file = files.get(name);
 			file.setOpen(true);
+			file.setSave(true);
 			String content = file.getContent();
 			file.setBuffer(content);  //将缓冲区内容设为与文本内容相同
 			System.out.println("文件已经打开");
@@ -153,6 +167,7 @@ public class Operation {
 	
 		return file;
 	}
+	
 	
 	/**
 	 * 文件关闭。
@@ -167,6 +182,10 @@ public class Operation {
 			file = null;
 			return;
 		} 
+		else if(!file.isOpen()){
+			System.out.println("文件未打开");
+			return;
+		}
 		else if(file.isSave()){  //文件已经保存了则不用再保存
 			System.out.println("文件已保存");
 		}
@@ -212,6 +231,70 @@ public class Operation {
 			System.out.println("文件已经保存");
 		}	
 	}	
+	
+	
+	/**
+	 * 文件复制。
+	 */
+	public void copy(UFile file)
+	{
+		String name = file.getName(); //得到当前所操复制作文件的名字
+		String path = file.getPath();  //得到当前所复制操作文件的路径
+		HashMap<String, UFile> files = folders.get(path);  //从路径表中找到该路径对应的文件表
+		file = files.get(name);	 //从该文件表中找到该文件名对应的文件
+		if (file == null) {
+			System.out.println("文件不存在");
+			file = null;
+		} else {
+			if (file.isOpen()) {
+			System.out.println("输入所复制的文件前往的路径:");
+			String path1 = in.next();  //输入复制后文件前往的路径
+			if (pathMap.containsKey(path1))
+			{
+				HashMap<String, UFile> files1 = folders.get(path1);  //从路径表中找到该路径对应的文件表
+				int nameln=name.length();
+				int pathln=path.length();
+				String name1=path1+name.substring(pathln,nameln);  //复制到其他路径后文件的路径+名字
+				if(files1.containsKey(name1))
+				{
+					if(name.equals(name1))
+					{
+					System.out.println("该路径中已有该命名文件");
+					name1=name1+"(副本)";
+					UFile file1=new UFile(getId(),name1,path1);
+					files1.put(name1, file1);
+					String content=file.getContent();
+					file1.setContent(content);
+					file1.setLength(file.getLength());
+					file1.setType(file.getType());
+					addId();
+					System.out.println("已创建该命名文件副本");
+					}
+					else{
+						System.out.println("该路径中存在命名冲突的文件，操作取消");
+					}
+				}
+				else{
+				UFile file1=new UFile(getId(),name1,path1);
+				files1.put(name1, file1);
+				String content=file.getContent();
+				file1.setContent(content);
+				file1.setLength(file.getLength());
+				file1.setType(file.getType());
+				addId();
+				System.out.println("文件已经复制到"+path1);
+			}
+			}
+			else {
+				System.out.println("不存在该路径");
+			}
+		}	
+			else{
+				System.out.println("文件未打开");
+			}
+		}
+	}
+	
 	
 	 /**创建目录 ，需要目标目录名
 	  *

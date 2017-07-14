@@ -85,6 +85,9 @@ public class Controller {
 				case "create":
 					operation.create(file);
 					break;
+				case "copy":
+					operation.copy(file);
+					break;
 				case "open":
 					file = operation.open(file);
 					break;
