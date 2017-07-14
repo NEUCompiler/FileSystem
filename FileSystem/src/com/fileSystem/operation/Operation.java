@@ -259,21 +259,25 @@ public class Operation {
 		String path = file.getPath();  //得到当前所复制操作文件的路径
 		HashMap<String, UFile> files = folders.get(path);  //从路径表中找到该路径对应的文件表
 		file = files.get(name);	 //从该文件表中找到该文件名对应的文件
+		//文件不存在
 		if (file == null) {
 			System.out.println("文件不存在");
 			file = null;
 		} else {
-			if (file.isOpen()) {
+			if (file.isOpen()) {     //文件已经打开可复制
 			System.out.println("输入所复制的文件前往的路径:");
 			String path1 = in.next();  //输入复制后文件前往的路径
+			//路径表中存在输入的路径
 			if (pathMap.containsKey(path1))
 			{
 				HashMap<String, UFile> files1 = folders.get(path1);  //从路径表中找到该路径对应的文件表
 				int nameln=name.length();
 				int pathln=path.length();
 				String name1=path1+name.substring(pathln,nameln);  //复制到其他路径后文件的路径+名字
+				//文件表中存在名字相同的文件
 				if(files1.containsKey(name1))
 				{
+					//目标路径与当前相同
 					if(name.equals(name1))
 					{
 					System.out.println("本路径中已有该命名文件");
@@ -287,10 +291,23 @@ public class Operation {
 					addId();
 					System.out.println("已创建该命名文件副本");
 					}
-					else{
-						System.out.println("该路径中存在命名冲突的文件，操作取消");
+					else{  //目标路径中有同名文件
+						System.out.println("该路径中存在命名冲突的文件");
+						System.out.println("是否将目标文件中内容覆盖？(y确认，n取消)");
+						String input = in.next();
+						if(input.equals("y"))
+						{
+							UFile file1 = files1.get(name1);	 //从该文件表中找到该文件名对应的文件
+							String content1=file1.getContent();
+							file1.setContent(content1);
+							files1.put(name1, file);
+						}
+						else {
+							System.out.println("操作已取消");
+						}
 					}
 				}
+				//目标路径中不存在同名文件
 				else{
 				UFile file1=new UFile(getId(),name1,path1);
 				files1.put(name1, file1);
